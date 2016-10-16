@@ -244,16 +244,12 @@ module.exports = function(options) {
       new CopyWebpackPlugin([{
         from: 'src/assets',
         to: 'assets'
-      }], {
-        ignore: [
-          'humans.txt',
-          'robots.txt'
-        ]
-      }),
+      },
+      { 
+        from: 'node_modules/bootstrap/dist/css/bootstrap.min.css',
+      }]),
       new CopyWebpackPlugin([{ 
-        from: 'src/assets/robots.txt'
-      }, { 
-        from: 'src/assets/humans.txt' 
+        from: 'node_modules/bootstrap/dist/css/bootstrap.min.css',
       }]),
 
       /*

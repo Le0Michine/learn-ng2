@@ -6,3 +6,45 @@ html, body{
 span.active {
   background-color: gray;
 }
+
+footer {
+  height: 100px;
+  display: block;
+  position: relative;
+}
+
+main, header {
+  width: 80%;
+  left: 10%;
+  display: block;
+  position: relative;
+  background-color: white;
+}
+
+header {
+  top: 0;
+  height: 150px;
+  padding: 25px 15px;
+}
+
+.nav-bar {
+  border: 1px solid darkgray;
+  border-radius: 5px;
+}
+
+img.logo {
+  background: url("../assets/img/angular-logo.png") no-repeat;
+  background-size: contain;
+  width: 100px;
+  height: 100px;
+  border: 0;
+}
+
+.place {
+  border: 0px solid darkgray;
+  border-radius: 5px;
+}
+
+a {
+  cursor: pointer;
+}

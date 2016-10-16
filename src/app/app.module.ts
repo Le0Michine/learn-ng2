@@ -1,6 +1,6 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NG_VALIDATORS } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
@@ -10,14 +10,21 @@ import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularcla
  */
 import { ENV_PROVIDERS } from './environment';
 import { ROUTES } from './app.routes';
+import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+
 // App is our top level component
 import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { Home } from './home';
-import { About } from './about';
+import { LoginService, LoacalStorageService, InMemoryDataService, CourseService, BreadcrumbService, AuthorService } from "./services";
+import { PasswordValidator, UserNameValidator, DateValidator, NumberValidator } from "./validators";
+import { DurationPipe } from "./pipes";
+import { LoginComponent } from './login';
+import { CoursesListComponent } from './courses';
+import { CourseComponent } from './course';
+import { BreadcrumbComponent } from './breadcrumb';
+import { CourseEditComponent, DateInputComponent, DurationInputComponent, MultipleItemsSelectorComponent } from './course-edit';
 import { NoContent } from './no-content';
-import { XLarge } from './home/x-large';
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -38,20 +45,36 @@ type StoreType = {
   bootstrap: [ App ],
   declarations: [
     App,
-    About,
-    Home,
+    LoginComponent,
     NoContent,
-    XLarge
+    CourseComponent,
+    CoursesListComponent,
+    PasswordValidator,
+    UserNameValidator,
+    DateValidator,
+    NumberValidator,
+    CourseEditComponent,
+    DateInputComponent,
+    DurationInputComponent,
+    MultipleItemsSelectorComponent,
+    BreadcrumbComponent,
+    DurationPipe
   ],
   imports: [ // import Angular's modules
     BrowserModule,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true })
+    RouterModule.forRoot(ROUTES, { useHash: true }),
+    InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 500 })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
-    APP_PROVIDERS
+    APP_PROVIDERS,
+    BreadcrumbService,
+    { provide: LoacalStorageService, useClass: LoacalStorageService },
+    LoginService,
+    CourseService,
+    AuthorService
   ]
 })
 export class AppModule {

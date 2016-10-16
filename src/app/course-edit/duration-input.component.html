@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-md-9">
+        <input
+            #dateInput
+            number
+            type="text"
+            class="form-control"
+            placeholder="minutes"
+            [(ngModel)]="value"
+            (blur)="onBlur()"
+        >
+    </div>
+    <div class="col-md-3">
+        <span>{{value | duration}}</span>
+    </div>
+</div>

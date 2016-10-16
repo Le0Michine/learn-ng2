@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-4">
+            <input type="text" class="form-control" placeholder="name fragment or date">
+        </div>
+        <div class="col-md-2">
+            <button class="btn btn-default">Find</button>
+        </div>
+        <div class="col-md-3 col-md-offset-3">
+            <button class="btn btn-default" (click)="add()"><span class="material-icons pull-left">add</span>Add course</button>
+        </div>
+    </div>
+</div>
+<div class="row top-buffer">
+    <div class="courses-list col-md-12">
+        <div class="alert alert-warning" *ngIf="!courses">No courses</div>
+        <div *ngIf="courses">
+            <div *ngFor="let course of courses" class="col-md-12">
+                <course [course]="course" (onRemove)="remove($event)"></course>
+            </div>
+        </div>
+    </div>
+</div>

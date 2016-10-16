@@ -1,0 +1,16 @@
+:host {
+    display: block;
+    position: relative;
+    left: calc(50% - 200px);
+    top: calc(50% - 150px);
+    width: 400px;
+    height: 300px;
+}
+
+label {
+    display: inline-block;
+}
+
+input.ng-invalid.ng-touched {
+    border-color: red;
+}

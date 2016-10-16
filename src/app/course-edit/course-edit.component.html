@@ -1,0 +1,60 @@
+<div class="row">
+    <div class="col-md-12">
+        <form #form="ngForm" (ngSubmit)="save(form)" class="form-horizontal">
+            <div class="form-group">
+                <label for="name" class="col-md-2 control-label">Title</label>
+                <div class="col-md-7">
+                    <input
+                        required
+                        id="name"
+                        name="name"
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="course.name"
+                    >
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="summary" class="col-md-2 control-label">Summary</label>
+                <div class="col-md-7">
+                    <textarea
+                        required
+                        id="summary"
+                        name="summary"
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="course.summary"
+                    ></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="date" class="col-md-2 control-label">Date</label>
+                <div class="col-md-7">
+                    <date-input date name="date" id="date" [(ngModel)]="course.creatingDate"></date-input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="duration" class="col-md-2 control-label">Duration</label>
+                <div class="col-md-7">
+                    <duration-input name="duration" [(ngModel)]="course.duration"></duration-input>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="authors" class="col-md-2 control-label">Authors</label>
+                <div class="col-md-7">
+                    <multiple-items-selector name="authors" [(ngModel)]="course.authors" [itemsPool]="authors"></multiple-items-selector>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-3">
+                    <button type="submit" class="btn btn-default"
+                    >Save</button>
+                </div>
+                <div class="col-md-3">
+                    <button type="reset" class="btn btn-default" (click)="cancel()"
+                    >Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

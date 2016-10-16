@@ -1,0 +1,11 @@
+body {
+    background-color: #eee;
+}
+
+.top-buffer {
+    margin-top: 5px;
+}
+
+.ng-invalid.ng-touched {
+    border-color: red;
+}

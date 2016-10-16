@@ -1,0 +1,17 @@
+.course-view {
+    border: 1px solid darkgray;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.spacer {
+    padding: 5px;
+}
+
+button {
+    width: 100%;
+}
+
+pre {
+    white-space: pre-line;
+}

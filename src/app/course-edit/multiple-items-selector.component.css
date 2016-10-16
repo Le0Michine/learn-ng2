@@ -1,0 +1,13 @@
+.items-list {
+    height: 100px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.item {
+    cursor: pointer;
+}
+
+.selected {
+    background-color: lightgray;
+}

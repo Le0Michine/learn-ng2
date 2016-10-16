@@ -1,0 +1,45 @@
+import { Injectable, Inject } from "@angular/core";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/Observable/throw";
+
+import { LoacalStorageService } from "./local-storage.service";
+import { User } from "../models";
+
+@Injectable()
+export class LoginService {
+    private user: User;
+    private onLogin: BehaviorSubject<User> = new BehaviorSubject(null);
+
+    constructor(private storage: LoacalStorageService) {
+        this.user = new User();
+        this.user.id = 1;
+        this.user.name = "q";
+        this.user.password = "q";
+
+        storage.get("currentUser").subscribe((u: User) => this.onLogin.next(u));
+    }
+
+    public login(userName: string, password: string): Observable<User> {
+        if (this.user.name === userName && this.user.password === password) {
+            this.onLogin.next(this.user);
+            return Observable.of(this.user);
+        }
+        else {
+            return Observable.throw({ type: "authorization_failed", message: "Wrong Login or Password" });
+        }
+    }
+
+    public onSuccessLogin(): Observable<User> {
+        return this.onLogin;
+    }
+
+    public isAuthorized(): boolean {
+        return this.onLogin.value ? true : false;
+    }
+
+    public logoff(): void {
+        this.onLogin.next(null);
+        this.storage.remove("currentUser");
+    }
+}
