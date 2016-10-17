@@ -1,5 +1,5 @@
 .items-list {
-    height: 100px;
+    height: 106px;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -10,4 +10,9 @@
 
 .selected {
     background-color: lightgray;
+}
+
+a.btn {
+    margin-top: 10px;
+    max-width: 50px;
 }
