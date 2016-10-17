@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-3">
-        <div class="form-control items-list input-control">
+        <div class="form-control items-list input-control" tabindex="1" (blur)="onBlur()">
             <div
                 class="item"
                 (click)="selectItem(i)"
@@ -14,7 +14,7 @@
         <a class="btn btn-default" (click)="moveToSelected()"><-</a>
     </div>
     <div class="col-md-3">
-        <div class="form-control items-list">
+        <div class="form-control items-list" tabindex="2">
             <div
                 class="item"
                 (click)="selectItemFromPool(i)"
