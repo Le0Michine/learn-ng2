@@ -17,6 +17,7 @@ import { LoginService, LoacalStorageService, CourseService, BreadcrumbService, A
 export class CourseEditComponent implements OnInit {
     course: Course = new Course();
     authors: Author[];
+    showModal: boolean = false;
 
     constructor(
         private loginService: LoginService,
@@ -60,6 +61,11 @@ export class CourseEditComponent implements OnInit {
     save(form) {
         let formValue = form.value;
         console.info("form", form, form.valid, form.errors);
+        if(!form.valid) {
+            console.warn("form invalid", form.errors);
+            this.showModal = true;
+            return;
+        }
         this.course.authors = formValue.authors;
         this.course.duration = formValue.duration;
         this.course.name = formValue.name;
@@ -78,5 +84,9 @@ export class CourseEditComponent implements OnInit {
 
     cancel() {
         this.router.navigate(["courses"]);
+    }
+
+    onModalCancel() {
+        this.showModal = false;
     }
 }

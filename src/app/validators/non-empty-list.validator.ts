@@ -3,23 +3,24 @@ import { Validator, Validators, FormControl, NG_VALIDATORS, ValidatorFn } from "
 import { regExValidator } from "./functions";
 
 @Directive({
-    selector: "[date]",
+    selector: "[nonEmptyList]",
     providers: [
-        { provide: NG_VALIDATORS, useExisting: DateValidator, multi: true }
+        { provide: NG_VALIDATORS, useExisting: NonEmptyListValidator, multi: true }
     ]
 })
-export class DateValidator implements Validator {
+export class NonEmptyListValidator implements Validator {
     validator: (c: FormControl) => any = Validators.nullValidator;
 
     constructor() {
         this.validator = (c: FormControl) => {
-            return !c.value || !c.value.getFullYear || isNaN(c.value.getFullYear()) || c.value.getFullYear() < 1000
-                ? {
-                    "date": {
-                        wanted: "date should has format dd.mm.yyyy",
+            return c.value && c.value.length
+                ? null
+                : {
+                    "selectItems" : {
+                        wanted: "you need to select at least one item",
+                        actual: "no items selected"
                     }
-                }
-                : null;
+                };
         };
     }
 

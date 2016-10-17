@@ -77,6 +77,8 @@ export class MultipleItemsSelectorComponent implements ControlValueAccessor {
         if (this.selectedItem > -1) {
             this.itemsPool.push(this.value[this.selectedItem]);
             this.value.splice(this.selectedItem, 1);
+            this.onChanged(this.value);
+            this.onBlur();
         }
     }
 
@@ -84,6 +86,8 @@ export class MultipleItemsSelectorComponent implements ControlValueAccessor {
         if (this.selectedItemFromPool > -1) {
             this.value.push(this.itemsPool[this.selectedItemFromPool]);
             this.itemsPool.splice(this.selectedItemFromPool, 1);
+            this.onChanged(this.value);
+            this.onBlur();
         }
     }
 

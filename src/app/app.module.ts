@@ -17,12 +17,14 @@ import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
 import { LoginService, LoacalStorageService, InMemoryDataService, CourseService, BreadcrumbService, AuthorService } from "./services";
-import { PasswordValidator, UserNameValidator, DateValidator, NumberValidator } from "./validators";
-import { DurationPipe } from "./pipes";
+import { PasswordValidator, UserNameValidator, DateValidator, NumberValidator, NonEmptyListValidator, DateStringValidator } from "./validators";
+import { DateInputDirective } from "./directives";
+import { DurationPipe, SafeStylePipe, SafeHtmlPipe } from "./pipes";
 import { LoginComponent } from './login';
 import { CoursesListComponent } from './courses';
 import { CourseComponent } from './course';
 import { BreadcrumbComponent } from './breadcrumb';
+import { ModalDialogComponent } from './modal';
 import { CourseEditComponent, DateInputComponent, DurationInputComponent, MultipleItemsSelectorComponent } from './course-edit';
 import { NoContent } from './no-content';
 
@@ -49,16 +51,22 @@ type StoreType = {
     NoContent,
     CourseComponent,
     CoursesListComponent,
+    CourseEditComponent,
+    DurationInputComponent,
+    DateInputComponent,
+    MultipleItemsSelectorComponent,
+    BreadcrumbComponent,
+    ModalDialogComponent,
     PasswordValidator,
     UserNameValidator,
     DateValidator,
+    DateStringValidator,
     NumberValidator,
-    CourseEditComponent,
-    DateInputComponent,
-    DurationInputComponent,
-    MultipleItemsSelectorComponent,
-    BreadcrumbComponent,
-    DurationPipe
+    NonEmptyListValidator,
+    DurationPipe,
+    SafeStylePipe,
+    SafeHtmlPipe,
+    DateInputDirective
   ],
   imports: [ // import Angular's modules
     BrowserModule,

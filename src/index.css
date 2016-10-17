@@ -6,6 +6,8 @@ body {
     margin-top: 5px;
 }
 
-.ng-invalid.ng-touched {
+.ng-invalid.ng-touched,
+.ng-invalid.ng-touched:not(form) input,
+.ng-invalid.ng-touched:not(form) .input-control {
     border-color: red;
 }

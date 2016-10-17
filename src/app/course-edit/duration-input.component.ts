@@ -18,15 +18,12 @@ const nullCallback = (arg?: any) => {};
 
 @Component({
     selector: "duration-input",
-    styleUrls: [
-        "./duration-input.component.css"
-    ],
     templateUrl: "duration-input.component.html",
     providers: [DURATION_INPUT_VALUE_ACCESSOR]
 })
 export class DurationInputComponent implements ControlValueAccessor {
     @ViewChild("dateInput") input: ElementRef;
-    private _value: number;
+    private _value: string;
 
     private onTouched: () => void = nullCallback;
     private onChanged: (_: any) => void = nullCallback;
@@ -38,8 +35,8 @@ export class DurationInputComponent implements ControlValueAccessor {
     }
 
     set value(value: string) {
-        if (+value !== this._value && (!value || value.toString().match(/^\d{0,15}$/g))) {
-            this._value = +value;
+        if (value !== this._value && (!value || value.toString().match(/^\d{0,15}$/g))) {
+            this._value = value;
             this.onChanged(this.value);
         }
         else {

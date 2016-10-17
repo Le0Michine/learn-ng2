@@ -6,7 +6,7 @@ import "rxjs/add/Operator/catch";
 
 import { AppState } from '../app.service';
 import { User, Course } from "../models";
-import { LoginService, LoacalStorageService, CourseService, NavigationService } from "../services";
+import { LoginService, LoacalStorageService, CourseService, BreadcrumbService } from "../services";
 
 export const DATE_INPUT_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,
@@ -18,14 +18,12 @@ const nullCallback = (arg?: any) => {};
 
 @Component({
     selector: "date-input",
-    styleUrls: [
-        "./date-input.component.css"
-    ],
     templateUrl: "date-input.component.html",
     providers: [DATE_INPUT_VALUE_ACCESSOR]
 })
-export class DateInputComponent implements ControlValueAccessor, AfterViewInit {
+export class DateInputComponent implements ControlValueAccessor {
     @ViewChild("dateInput") input: ElementRef;
+    @Input() minYear: number = 1000;
 
     private _value: Date;
     private _stringValue: string;
@@ -88,7 +86,7 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit {
         if (!date) return "";
         let MM: number|string = date.getMonth() + 1;
         MM = MM < 10 ? "0" + MM : MM;
-        let dd: number|string =  date.getDay();
+        let dd: number|string =  date.getDay() + 1;
         dd = dd < 10 ? "0" + dd : dd;
         let yyyy: number = date.getFullYear();
         return `${MM}.${dd}.${yyyy}`;
@@ -99,7 +97,6 @@ export class DateInputComponent implements ControlValueAccessor, AfterViewInit {
         let MM = +str.split(".")[0] || 1;
         let dd = +str.split(".")[1] || 0;
         let yyyy = +str.split(".")[2] || 0;
-        console.info("new date", new Date(`${yyyy}-${MM - 1}-${dd}`));
-        return new Date(`${yyyy}-${MM - 1}-${dd}`);
+        return new Date(`${yyyy}-${MM}-${dd}`);
     }
 }

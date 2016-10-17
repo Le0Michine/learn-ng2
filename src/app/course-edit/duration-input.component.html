@@ -2,7 +2,6 @@
     <div class="col-md-9">
         <input
             #dateInput
-            number
             type="text"
             class="form-control"
             placeholder="minutes"
@@ -11,6 +10,6 @@
         >
     </div>
     <div class="col-md-3">
-        <span>{{value | duration}}</span>
+        <span *ngIf="value">{{value | duration}}</span>
     </div>
 </div>
