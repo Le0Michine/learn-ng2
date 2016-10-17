@@ -6,7 +6,7 @@
                 (click)="selectItem(i)"
                 [class.selected]="i === selectedItem"
                 *ngFor="let item of value; let i=index;"
-            >{{item?.name}}</div>
+            >{{item.name}}</div>
         </div>
     </div>
     <div class="col-md-2 text-center">
@@ -20,7 +20,7 @@
                 (click)="selectItemFromPool(i)"
                 [class.selected]="i === selectedItemFromPool"
                 *ngFor="let item of itemsPool; let i=index;"
-            >{{item?.name}}</div>
+            >{{item.name}}</div>
         </div>
     </div>
 </div>
