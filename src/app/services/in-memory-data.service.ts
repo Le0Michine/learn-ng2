@@ -18,9 +18,10 @@ export class InMemoryDataService implements InMemoryDbService {
       {id: 22, name: "Tomato"},
     ];
     let courses: Course[] = [
-      { id: 11, name: "JS#1", summary: loremIpsum, duration: 45, creatingDate: new Date(1332284400000), authors: [authors[2], authors[1]] },
-      { id: 12, name: "JS#2", summary: loremIpsum, duration: 425, creatingDate: new Date(1332684400000), authors: [authors[6]] },
-      { id: 13, name: "JS#3", summary: loremIpsum, duration: 320, creatingDate: new Date(Date.now()), authors: [authors[0], authors[3], authors[6]] }
+      { id: 11, name: "JS#1", summary: loremIpsum, duration: 45, creatingDate: new Date("2012-03-04"), authors: [authors[2], authors[1]] },
+      { id: 12, name: "JS#2", summary: loremIpsum, duration: 425, creatingDate: new Date("2010-01-15"), authors: [authors[6]] },
+      { id: 13, name: "JS#3", summary: loremIpsum, duration: 320, creatingDate: new Date("2015-05-24"), authors: [authors[0], authors[3], authors[6]] },
+      { id: 14, name: "JS#4", summary: loremIpsum, duration: 320, creatingDate: new Date("2016-09-13"), authors: [authors[0], authors[3], authors[6]] }
     ];
     return { courses, authors };
   }
