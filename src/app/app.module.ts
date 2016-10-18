@@ -16,7 +16,7 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { LoginService, LoacalStorageService, InMemoryDataService, CourseService, BreadcrumbService, AuthorService } from "./services";
+import { LoginService, LoacalStorageService, InMemoryDataService, CourseService, BreadcrumbService, AuthorService, ErrorHandlerService } from "./services";
 import { PasswordValidator, UserNameValidator, DateValidator, NumberValidator, NonEmptyListValidator, DateStringValidator } from "./validators";
 import { DateInputDirective } from "./directives";
 import { DurationPipe, SafeStylePipe, SafeHtmlPipe } from "./pipes";
@@ -73,7 +73,7 @@ type StoreType = {
     FormsModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
-    InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 500 })
+    InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 1000 })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
@@ -82,7 +82,8 @@ type StoreType = {
     { provide: LoacalStorageService, useClass: LoacalStorageService },
     LoginService,
     CourseService,
-    AuthorService
+    AuthorService,
+    ErrorHandlerService
   ]
 })
 export class AppModule {

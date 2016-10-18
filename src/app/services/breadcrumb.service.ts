@@ -2,16 +2,17 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
+import { BreadcrumbItem } from "../models";
 
 @Injectable()
 export class BreadcrumbService {
-    private currentState: BehaviorSubject<string[]> = new BehaviorSubject([]);
+    private currentState: BehaviorSubject<BreadcrumbItem[]> = new BehaviorSubject([]);
 
-    public setCurrentState(place: string[]): void {
+    public setCurrentState(place: BreadcrumbItem[]): void {
         this.currentState.next(place);
     }
 
-    public getCurrentState(): Observable<string[]> {
+    public getCurrentState(): Observable<BreadcrumbItem[]> {
         return this.currentState;
     }
 }

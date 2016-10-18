@@ -38,11 +38,11 @@ export class CourseEditComponent implements OnInit {
             if (params.id !== "new") {
                 this.courseService.getById(+params.id).subscribe(course => {
                     this.course = course;
-                    this.location.setCurrentState(["Courses", course.name]);
+                    this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}, {title: course.name, navigationLink: ""}]);
                 });
             }
             else {
-                this.location.setCurrentState(["Courses", "new"]);
+                this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}, {title: "new", navigationLink: ""}]);
                 this.course.authors = [];
             }
         });

@@ -1,7 +1,11 @@
 import { Component, animate, style, trigger, transition, state } from '@angular/core';
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import "rxjs/add/Operator/catch";
+import "rxjs/add/Operator/debounceTime";
+import "rxjs/add/Operator/distinctUntilChanged";
+import "rxjs/add/Operator/switchMap";
 
 import { AppState } from '../app.service';
 import { User, Course } from "../models";
@@ -15,10 +19,11 @@ import { LoginService, LoacalStorageService, CourseService, BreadcrumbService } 
     templateUrl: "courses-list.component.html",
 })
 export class CoursesListComponent {
+    onSearch: BehaviorSubject<string> = new BehaviorSubject("");
     user : User = new User();
     showErrorMessage: boolean = false;
     errorMessage: string = "";
-    courses: Course[] = [];
+    courses: Observable<Course[]>;
 
     constructor(
         private loginService: LoginService,
@@ -35,12 +40,16 @@ export class CoursesListComponent {
         if (!this.loginService.isAuthorized()) {
             this.router.navigate([""]);
         }
-        this.location.setCurrentState(["Courses"]);
-        this.getCourses();
+        this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}]);
+        this.search("");
+        this.courses = this.onSearch
+            .debounceTime(300)
+            //.distinctUntilChanged()
+            .switchMap(term => term ? this.courseService.searchByName(term) : this.courseService.getCourses());
     }
 
-    getCourses(): void {
-        this.courseService.getCourses().subscribe(courses => this.courses = courses);
+    search(term: string) {
+        this.onSearch.next(term);
     }
 
     add() {
@@ -49,7 +58,7 @@ export class CoursesListComponent {
 
     remove(id: number) {
         this.courseService.removeCourse(id).subscribe(r => {
-            this.getCourses();
+            this.search("");
         });
     }
 }

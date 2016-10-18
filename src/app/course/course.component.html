@@ -1,7 +1,10 @@
 <div class="col-md-12 spacer course-view">
     <div class="row">
-        <div class="col-md-5">
-            <span>Video course: {{course.name}} {{course.duration | duration}}</span>
+        <div class="col-md-3">
+            <span>Video course: {{course.name}}</span>
+        </div>
+        <div class="col-md-2">
+            <span>{{course.duration | duration}}</span>
         </div>
         <div class="col-md-2 col-md-offset-3">
             <span>{{course.creatingDate | date:"MM.dd.yyyy"}}</span>
