@@ -18,7 +18,7 @@ export class CoursesListComponent {
     user : User = new User();
     showErrorMessage: boolean = false;
     errorMessage: string = "";
-    courses: Course[];
+    courses: Course[] = [];
 
     constructor(
         private loginService: LoginService,
