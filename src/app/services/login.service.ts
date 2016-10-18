@@ -2,6 +2,7 @@ import { Injectable, Inject } from "@angular/core";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/throw";
+import "rxjs/add/observable/of";
 
 import { LoacalStorageService } from "./local-storage.service";
 import { User } from "../models";
