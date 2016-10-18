@@ -75,13 +75,13 @@
       "check-module"
     ],
 
-    "eofline": true,
+    "eofline": false,
     "indent": [
       true,
       "spaces"
     ],
     "max-line-length": [
-      true,
+      false,
       100
     ],
     "no-require-imports": false,

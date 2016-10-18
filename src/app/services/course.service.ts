@@ -1,14 +1,14 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers } from "@angular/http";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/Operator/concatMap";
+import "rxjs/add/operator/concatMap";
 
 import { Course } from "../models";
 import { ErrorHandlerService } from "./error-handler.service";
 
 @Injectable()
 export class CourseService {
-    private headers = new Headers({'Content-Type': 'application/json'});
+    private headers = new Headers({"Content-Type": "application/json"});
     private coursesUrl = "/app/courses";
 
     constructor(private http: Http, private errorHandler: ErrorHandlerService) { }
@@ -28,8 +28,7 @@ export class CourseService {
         return this.http.delete(url, { headers: this.headers }).concatMap(response => {
             if (response.ok) {
                 return Observable.of(null);
-            }
-            else {
+            } else {
                 return Observable.throw({
                     type: "bad-response",
                     message: `unable to remove course ${id}, response status: ${response.status} ${response.statusText}`

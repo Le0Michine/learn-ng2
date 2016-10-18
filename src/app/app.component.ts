@@ -1,17 +1,17 @@
-import { Component, ViewEncapsulation } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Component, ViewEncapsulation } from "@angular/core";
+import { Router } from "@angular/router";
+import { Observable } from "rxjs/Observable";
 
-import { AppState } from './app.service';
-import { BreadcrumbService, LoginService } from './services';
-import { User } from './models';
+import { AppState } from "./app.service";
+import { BreadcrumbService, LoginService } from "./services";
+import { User } from "./models";
 
 /*
  * App Component
  * Top Level Component
  */
 @Component({
-  selector: 'app',
+  selector: "app",
   encapsulation: ViewEncapsulation.None,
   styleUrls: [
     "./app.component.css"

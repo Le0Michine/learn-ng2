@@ -1,13 +1,13 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers } from "@angular/http";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/Operator/concatMap";
+import "rxjs/add/operator/concatMap";
 
 import { Author } from "../models";
 
 @Injectable()
 export class AuthorService {
-    private headers = new Headers({'Content-Type': 'application/json'});
+    private headers = new Headers({"Content-Type": "application/json"});
     private authorsUrl = "/app/authors";
 
     constructor(private http: Http) { }

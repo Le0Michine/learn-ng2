@@ -1,7 +1,7 @@
 import { Injectable, Inject } from "@angular/core";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/Observable/throw";
+import "rxjs/add/observable/throw";
 
 import { LoacalStorageService } from "./local-storage.service";
 import { User } from "../models";
@@ -24,8 +24,7 @@ export class LoginService {
         if (this.user.name === userName && this.user.password === password) {
             this.onLogin.next(this.user);
             return Observable.of(this.user);
-        }
-        else {
+        } else {
             return Observable.throw({ type: "authorization_failed", message: "Wrong Login or Password" });
         }
     }
