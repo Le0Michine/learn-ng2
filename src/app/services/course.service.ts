@@ -28,7 +28,7 @@ export class CourseService {
         let url = `${this.coursesUrl}/${id}`;
         return this.http.delete(url, { headers: this.headers }).concatMap(response => {
             if (response.ok) {
-                return Observable.of(null);
+                return Observable.of(true);
             } else {
                 return Observable.throw({
                     type: "bad-response",

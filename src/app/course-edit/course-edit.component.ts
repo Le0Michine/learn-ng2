@@ -40,8 +40,7 @@ export class CourseEditComponent implements OnInit {
                     this.course = course;
                     this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}, {title: course.name, navigationLink: ""}]);
                 });
-            }
-            else {
+            } else {
                 this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}, {title: "new", navigationLink: ""}]);
                 this.course.authors = [];
             }
