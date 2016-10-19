@@ -24,9 +24,9 @@ export class InMemoryDataService implements InMemoryDbService {
       { id: 12, name: "JS-2", summary: loremIpsum, duration: 425, creatingDate: new Date("2010-01-15"), authors: [authors[6]] },
       { id: 13, name: "JS-3", summary: loremIpsum, duration: 320, creatingDate: new Date("2015-05-24"), authors: [authors[0], authors[3], authors[6]] },
       { id: 14, name: "JS-4", summary: loremIpsum, duration: 120, creatingDate: new Date("2016-09-13"), authors: [authors[0], authors[3], authors[6]] },
-      { id: 14, name: ".net", summary: loremIpsum, duration: 520, creatingDate: new Date("2016-09-13"), authors: [authors[0], authors[3], authors[6]] },
-      { id: 14, name: "angularjs", summary: loremIpsum, duration: 720, creatingDate: new Date("2016-09-13"), authors: [authors[0]] },
-      { id: 14, name: "angular 2", summary: loremIpsum, duration: 20, creatingDate: new Date("2016-09-13"), authors: [authors[0], authors[3]] }
+      { id: 15, name: ".net", summary: loremIpsum, duration: 520, creatingDate: new Date("2016-09-13"), authors: [authors[0], authors[3], authors[6]] },
+      { id: 16, name: "angularjs", summary: loremIpsum, duration: 720, creatingDate: new Date("2016-09-13"), authors: [authors[0]] },
+      { id: 17, name: "angular 2", summary: loremIpsum, duration: 20, creatingDate: new Date("2016-09-13"), authors: [authors[0], authors[3]] }
     ];
     return { courses, authors };
   }

@@ -60,12 +60,11 @@ export class CourseEditComponent implements OnInit {
 
     save(form) {
         let formValue = form.value;
-        console.info("form", form, form.valid, form.errors);
-        if(!form.valid) {
-            console.warn("form invalid", form.errors);
+        if (!form.valid) {
             this.showModal = true;
             return;
         }
+
         this.course.authors = formValue.authors;
         this.course.duration = formValue.duration;
         this.course.name = formValue.name;
@@ -74,15 +73,14 @@ export class CourseEditComponent implements OnInit {
 
         if (this.course.id) {
             this.courseService.updateCourse(this.course);
-        }
-        else {
+        } else {
             this.courseService.addCourse(this.course);
         }
 
-        this.router.navigate(["courses"]);
+        this.goToCoursesList();
     }
 
-    cancel() {
+    goToCoursesList() {
         this.router.navigate(["courses"]);
     }
 

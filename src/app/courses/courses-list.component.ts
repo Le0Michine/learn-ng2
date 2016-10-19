@@ -24,6 +24,8 @@ export class CoursesListComponent {
     showErrorMessage: boolean = false;
     errorMessage: string = "";
     courses: Observable<Course[]>;
+    private showLoginRequiredHint: boolean = false;
+    private showPasswordRequiredHint: boolean = false;
 
     constructor(
         private loginService: LoginService,
@@ -33,9 +35,6 @@ export class CoursesListComponent {
         private router: Router) {
     }
 
-    private showLoginRequiredHint: boolean = false;
-    private showPasswordRequiredHint: boolean = false;
-
     ngOnInit() {
         if (!this.loginService.isAuthorized()) {
             this.router.navigate([""]);
@@ -44,7 +43,6 @@ export class CoursesListComponent {
         this.search("");
         this.courses = this.onSearch
             .debounceTime(300)
-            //.distinctUntilChanged()
             .switchMap(term => term ? this.courseService.searchByName(term) : this.courseService.getCourses());
     }
 

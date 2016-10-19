@@ -1,10 +1,10 @@
-import { Component, Input, EventEmitter, OnInit, AfterViewInit, forwardRef, ViewChild, Renderer, ElementRef } from '@angular/core';
+import { Component, Input, EventEmitter, OnInit, AfterViewInit, forwardRef, ViewChild, Renderer, ElementRef } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/Operator/catch";
 
-import { AppState } from '../app.service';
+import { AppState } from "../app.service";
 import { User, Course } from "../models";
 import { LoginService, LoacalStorageService, CourseService, BreadcrumbService } from "../services";
 
@@ -94,9 +94,9 @@ export class DateInputComponent implements ControlValueAccessor {
 
     dateFromString(str: string) {
         if (!str) return null;
-        let MM = +str.split(".")[0] || 1;
-        let dd = +str.split(".")[1] || 0;
-        let yyyy = +str.split(".")[2] || 0;
-        return new Date(`${yyyy}-${MM}-${dd}`);
+        let MM = +str.split(".")[0] || null;
+        let dd = +str.split(".")[1] || null;
+        let yyyy = +str.split(".")[2] || null;
+        return yyyy && yyyy > 999 && dd && MM ? new Date(`${yyyy}-${MM}-${dd}`) : new Date("Invalid date");
     }
 }
