@@ -3,7 +3,6 @@ import { Http, Headers } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/concatMap";
 import "rxjs/add/observable/of";
-import "rxjs/add/operator/map";
 
 import { Course } from "../models";
 import { ErrorHandlerService } from "./error-handler.service";

@@ -6,22 +6,22 @@
 // TODO(gdi2290): switch to DLLs
 
 // Angular 2
-import '@angular/platform-browser';
-import '@angular/platform-browser-dynamic';
-import '@angular/core';
-import '@angular/common';
-import '@angular/forms';
-import '@angular/http';
-import '@angular/router';
+import "@angular/platform-browser";
+import "@angular/platform-browser-dynamic";
+import "@angular/core";
+import "@angular/common";
+import "@angular/forms";
+import "@angular/http";
+import "@angular/router";
 
 // AngularClass
-import '@angularclass/hmr';
+import "@angularclass/hmr";
 
 // RxJS
-import 'rxjs/add/Operator/map';
-import 'rxjs/add/Operator/mergeMap';
+import "rxjs/add/Operator/map";
+import "rxjs/add/Operator/mergeMap";
 
-if ('production' === ENV) {
+if ("production" === ENV) {
   // Production
 
 

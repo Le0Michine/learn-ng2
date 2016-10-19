@@ -16,3 +16,7 @@ a.btn {
     margin-top: 10px;
     max-width: 50px;
 }
+
+.buttons {
+    max-width: 80px;
+}
