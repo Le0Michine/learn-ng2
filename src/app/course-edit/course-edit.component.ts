@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, EventEmitter, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/Operator/catch";

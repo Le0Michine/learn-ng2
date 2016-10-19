@@ -1,4 +1,4 @@
-import { Component, animate, style, trigger, transition, state } from '@angular/core';
+import { Component, animate, style, trigger, transition, state } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
@@ -7,7 +7,6 @@ import "rxjs/add/Operator/debounceTime";
 import "rxjs/add/Operator/distinctUntilChanged";
 import "rxjs/add/Operator/switchMap";
 
-import { AppState } from '../app.service';
 import { User, Course } from "../models";
 import { LoginService, LoacalStorageService, CourseService, BreadcrumbService } from "../services";
 
