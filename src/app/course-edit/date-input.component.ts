@@ -50,8 +50,7 @@ export class DateInputComponent implements ControlValueAccessor {
             this._stringValue = value;
             this.value = this.dateFromString(value);
             this.onChanged(this.value);
-        }
-        else {
+        } else {
             this.updateInput();
         }
     }

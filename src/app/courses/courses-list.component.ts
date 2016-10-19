@@ -20,12 +20,10 @@ import { LoginService, LoacalStorageService, CourseService, BreadcrumbService } 
 })
 export class CoursesListComponent {
     onSearch: BehaviorSubject<string> = new BehaviorSubject("");
-    user : User = new User();
+    user: User = new User();
     showErrorMessage: boolean = false;
     errorMessage: string = "";
-    courses: Observable<Course[]>;
-    private showLoginRequiredHint: boolean = false;
-    private showPasswordRequiredHint: boolean = false;
+    courses: Course[] = [];
 
     constructor(
         private loginService: LoginService,
@@ -41,13 +39,17 @@ export class CoursesListComponent {
         }
         this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}]);
         this.search("");
-        this.courses = this.onSearch
+        this.subscribeOnCourses(this.onSearch
             .debounceTime(300)
-            .switchMap(term => term ? this.courseService.searchByName(term) : this.courseService.getCourses());
+            .switchMap(term => term ? this.courseService.searchByName(term) : this.courseService.getCourses()));
     }
 
     search(term: string) {
         this.onSearch.next(term);
+    }
+
+    subscribeOnCourses(observable: Observable<Course[]>) {
+        observable.subscribe(courses => this.courses = courses);
     }
 
     add() {
@@ -56,7 +58,10 @@ export class CoursesListComponent {
 
     remove(id: number) {
         this.courseService.removeCourse(id).subscribe(r => {
-            this.search("");
+            if (r) {
+                let i = this.courses.findIndex(x => x.id === id);
+                this.courses.splice(i, 1);
+            }
         });
     }
 }

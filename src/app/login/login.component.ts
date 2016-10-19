@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
   user: User = new User();
   showErrorMessage: boolean = false;
   errorMessage: string = "";
+  showLoginRequiredHint: boolean = false;
+  showPasswordRequiredHint: boolean = false;
 
   constructor(
     private loginService: LoginService,
@@ -24,8 +26,6 @@ export class LoginComponent implements OnInit {
     private location: BreadcrumbService,
     private router: Router) { }
 
-  private showLoginRequiredHint: boolean = false;
-  private showPasswordRequiredHint: boolean = false;
 
   ngOnInit() {
     this.loginService.logoff();

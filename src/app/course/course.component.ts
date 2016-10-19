@@ -3,7 +3,6 @@ import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/Operator/catch";
 
-import { AppState } from '../app.service';
 import { Course } from "../models";
 import { LoginService, LoacalStorageService, CourseService } from "../services";
 

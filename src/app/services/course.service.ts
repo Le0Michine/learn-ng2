@@ -15,6 +15,7 @@ export class CourseService {
     constructor(private http: Http, private errorHandler: ErrorHandlerService) { }
 
     getCourses(): Observable<Course[]> {
+        // TODO add mapper
         return this.http.get(this.coursesUrl).map(response => response.json().data as Course[]);
     }
 

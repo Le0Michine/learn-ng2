@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/Operator/catch";
 
-import { AppState } from '../app.service';
 import { User, Course, Author } from "../models";
 import { LoginService, LoacalStorageService, CourseService, BreadcrumbService, AuthorService } from "../services";
 
@@ -47,13 +46,7 @@ export class CourseEditComponent implements OnInit {
         });
 
         this.authorService.getAuthors().subscribe(authors => {
-            for (let author of this.course.authors) {
-                let i = authors.findIndex(x => x.id === author.id);
-                if (i > -1) {
-                    authors.splice(i, 1);
-                }
-            }
-            this.authors = authors;
+            this.authors = authors.filter(x => this.course.authors.findIndex(y => y.id === x.id) === -1);
         });
     }
 
@@ -70,13 +63,8 @@ export class CourseEditComponent implements OnInit {
         this.course.creatingDate = formValue.date;
         this.course.summary = formValue.summary;
 
-        if (this.course.id) {
-            this.courseService.updateCourse(this.course);
-        } else {
-            this.courseService.addCourse(this.course);
-        }
-
-        this.goToCoursesList();
+        let o = this.course.id ? this.courseService.updateCourse(this.course) : this.courseService.addCourse(this.course);
+        o.subscribe(() => this.goToCoursesList());
     }
 
     goToCoursesList() {

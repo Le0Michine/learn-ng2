@@ -15,7 +15,7 @@
     <div class="courses-list col-md-12">
         <div class="alert alert-warning" *ngIf="!courses">No courses</div>
         <div *ngIf="courses">
-            <div *ngFor="let course of courses | async" class="col-md-12">
+            <div *ngFor="let course of courses" class="col-md-12">
                 <course [course]="course" (onRemove)="remove($event)"></course>
             </div>
         </div>
