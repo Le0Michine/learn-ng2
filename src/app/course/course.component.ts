@@ -16,6 +16,7 @@ import { LoginService, LoacalStorageService, CourseService } from "../services";
 export class CourseComponent {
     @Input() course: Course;
     @Output() onRemove: EventEmitter<number> = new EventEmitter();
+    @Output() onEdit: EventEmitter<number> = new EventEmitter();
 
     constructor(
         private loginService: LoginService,
@@ -27,7 +28,7 @@ export class CourseComponent {
     ngOnInit() { }
 
     edit() {
-        this.router.navigate(["courses", this.course.id]);
+        this.onEdit.emit(this.course.id);
     }
 
     remove() {

@@ -8,14 +8,26 @@ import { Component, Input, Output, EventEmitter } from "@angular/core";
     ]
 })
 export class ModalDialogComponent {
-    @Input() okButtonText;
-    @Input() cancelButtonText;
-    @Input("width") _width;
-    @Input("height") _height;
-    @Input() hideOkButton;
-    @Input() hideCancelButton;
+    @Input() okButtonText: string;
+    @Input() cancelButtonText: string;
+    @Input() title: string;
+    @Input() mainMessage: string;
+    @Input() messageDetails: string[];
+    @Input() severity: string;
+    @Input("width") _width: number;
+    @Input("height") _height: number;
+    @Input() hideOkButton: boolean;
+    @Input() hideCancelButton: boolean;
     @Output() onOkButtonClick = new EventEmitter();
     @Output() onCancelButtonClick = new EventEmitter();
+
+    get okText() {
+        return this.okButtonText || "OK";
+    }
+
+    get cancelText() {
+        return this.cancelButtonText || "Cancel";
+    }
 
     get width() {
         return (this._width || 400) + "px";
@@ -31,6 +43,25 @@ export class ModalDialogComponent {
 
     get top() {
         return `calc(50% - ${this._height || 400 / 2}px)`;
+    }
+
+    get severityClass(): any {
+        switch (this.severity) {
+            case "primary":
+                return {"bg-primary": true};
+            case "success":
+                return {"bg-success": true};
+            case "info":
+                return {"bg-info": true};
+            case "warning":
+            case "warn":
+                return {"bg-warning": true};
+            case "danger":
+            case "error":
+                return {"bg-danger": true};
+            default:
+                return {"bg-default": true};
+        }
     }
 
     clickOk() {

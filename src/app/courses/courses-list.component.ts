@@ -2,6 +2,8 @@ import { Component, animate, style, trigger, transition, state } from "@angular/
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Subject } from "rxjs/Subject";
+import "rxjs/add/Operator/first";
 import "rxjs/add/Operator/catch";
 import "rxjs/add/Operator/debounceTime";
 import "rxjs/add/Operator/distinctUntilChanged";
@@ -20,9 +22,14 @@ import { LoginService, LoacalStorageService, CourseService, BreadcrumbService } 
 export class CoursesListComponent {
     onSearch: BehaviorSubject<string> = new BehaviorSubject("");
     user: User = new User();
-    showErrorMessage: boolean = false;
     errorMessage: string = "";
     courses: Course[] = [];
+
+    removeConfirmTitle: string = "Remove course";
+    removeMessage: string = "Are you sure you want to remove this course?";
+    removeDetails: string[] = [];
+    removeDialogClose: Subject<boolean> = new Subject();
+    removeDialogShow: boolean = false;
 
     constructor(
         private loginService: LoginService,
@@ -33,9 +40,6 @@ export class CoursesListComponent {
     }
 
     ngOnInit() {
-        if (!this.loginService.isAuthorized()) {
-            this.router.navigate([""]);
-        }
         this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}]);
         this.search("");
         this.subscribeOnCourses(this.onSearch
@@ -48,7 +52,9 @@ export class CoursesListComponent {
     }
 
     subscribeOnCourses(observable: Observable<Course[]>) {
-        observable.subscribe(courses => this.courses = courses);
+        observable.subscribe(courses => {
+            this.courses = courses;
+        });
     }
 
     add() {
@@ -56,11 +62,26 @@ export class CoursesListComponent {
     }
 
     remove(id: number) {
+        this.removeDetails = [this.courses.find(x => x.id === id).name];
+        this.removeDialogShow = true;
+        this.removeDialogClose.first().subscribe(remove => {
+            if (remove) {
+                this.onRemoveAccept(id);
+            }
+            this.removeDialogShow = false;
+        })
+    }
+
+    onRemoveAccept(id: number) {
         this.courseService.removeCourse(id).subscribe(r => {
             if (r) {
                 let i = this.courses.findIndex(x => x.id === id);
                 this.courses.splice(i, 1);
             }
         });
+    }
+
+    edit(id: number) {
+        this.router.navigate(["courses", id]);
     }
 }

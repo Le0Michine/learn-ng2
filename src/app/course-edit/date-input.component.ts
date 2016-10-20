@@ -22,11 +22,11 @@ const nullCallback = (arg?: any) => {};
     providers: [DATE_INPUT_VALUE_ACCESSOR]
 })
 export class DateInputComponent implements ControlValueAccessor {
-    @ViewChild("dateInput") input: ElementRef;
     @Input() minYear: number = 1000;
 
     private _value: Date;
     private _stringValue: string;
+    private regex = /^\d{0,2}(\.\d{0,2})?(\.\d{0,4})?$/;
 
     private onTouched: () => void = nullCallback;
     private onChanged: (_: any) => void = nullCallback;
@@ -46,23 +46,14 @@ export class DateInputComponent implements ControlValueAccessor {
     }
 
     set stringValue(value: string) {
-        if (value !== this._stringValue && (!value || value.match(/^\d{0,2}(\.\d{0,2})?(\.\d{0,4})?$/g))) {
+        if (value !== this._stringValue) {
             this._stringValue = value;
             this.value = this.dateFromString(value);
             this.onChanged(this.value);
-        } else {
-            this.updateInput();
         }
     }
 
-    updateInput() {
-        this.renderer.setElementProperty(this.input.nativeElement, "value", this.stringValue);
-    }
-
-    writeValue(value: Date|string): void {
-        if (typeof(value) === "string") {
-            value = new Date(value);
-        }
+    writeValue(value: Date): void {
         if (!value || value !== this.value || value.toString() !== this.value.toString()) {
             this.value = value;
             this.stringValue = this.dateToString(value);
@@ -85,7 +76,7 @@ export class DateInputComponent implements ControlValueAccessor {
         if (!date) return "";
         let MM: number|string = date.getMonth() + 1;
         MM = MM < 10 ? "0" + MM : MM;
-        let dd: number|string =  date.getDay() + 1;
+        let dd: number|string =  date.getDate();
         dd = dd < 10 ? "0" + dd : dd;
         let yyyy: number = date.getFullYear();
         return `${MM}.${dd}.${yyyy}`;
@@ -96,6 +87,7 @@ export class DateInputComponent implements ControlValueAccessor {
         let MM = +str.split(".")[0] || null;
         let dd = +str.split(".")[1] || null;
         let yyyy = +str.split(".")[2] || null;
-        return yyyy && yyyy > 999 && dd && MM ? new Date(`${yyyy}-${MM}-${dd}`) : new Date("Invalid date");
+        //return yyyy && yyyy > 999 && dd && MM ? new Date(`${yyyy}-${MM}-${dd}`) : new Date("Invalid date");
+        return new Date(Date.parse(str));
     }
 }

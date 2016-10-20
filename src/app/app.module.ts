@@ -16,9 +16,9 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { LoginService, LoacalStorageService, InMemoryDataService, CourseService, BreadcrumbService, AuthorService, ErrorHandlerService } from "./services";
+import { LoginService, LoacalStorageService, InMemoryDataService, CourseService, BreadcrumbService, AuthorService, HttpHelperService, ErrorHandlerService, AuthGuard } from "./services";
 import { PasswordValidator, UserNameValidator, DateValidator, NumberValidator, NonEmptyListValidator, DateStringValidator } from "./validators";
-import { DateInputDirective } from "./directives";
+import { NumberInputDirective, RegexInputDirective } from "./directives";
 import { DurationPipe, SafeStylePipe, SafeHtmlPipe } from "./pipes";
 import { LoginComponent } from './login';
 import { CoursesListComponent } from './courses';
@@ -66,7 +66,8 @@ type StoreType = {
     DurationPipe,
     SafeStylePipe,
     SafeHtmlPipe,
-    DateInputDirective
+    NumberInputDirective,
+    RegexInputDirective
   ],
   imports: [ // import Angular's modules
     BrowserModule,
@@ -83,7 +84,10 @@ type StoreType = {
     LoginService,
     CourseService,
     AuthorService,
-    ErrorHandlerService
+    ErrorHandlerService,
+    HttpHelperService,
+    AuthGuard,
+    { provide: "AuthGuard", useClass: AuthGuard }
   ]
 })
 export class AppModule {

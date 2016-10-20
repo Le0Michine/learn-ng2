@@ -16,8 +16,19 @@
         <div class="alert alert-warning" *ngIf="!courses">No courses</div>
         <div *ngIf="courses">
             <div *ngFor="let course of courses" class="col-md-12">
-                <course [course]="course" (onRemove)="remove($event)"></course>
+                <course [course]="course" (onRemove)="remove($event)" (onEdit)="edit($event)"></course>
             </div>
         </div>
     </div>
 </div>
+<modal-dialog
+    *ngIf="removeDialogShow"
+    [severity]="'warning'"
+    [title]="removeConfirmTitle"
+    [mainMessage]="removeMessage"
+    [messageDetails]="removeDetails"
+    [okButtonText]="'Yes'"
+    [cancelButtonText]="'No'"
+    (onOkButtonClick)="removeDialogClose.next(true)"
+    (onCancelButtonClick)="removeDialogClose.next(false)"
+></modal-dialog>

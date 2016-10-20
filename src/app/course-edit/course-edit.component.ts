@@ -1,5 +1,6 @@
 import { Component, Input, EventEmitter, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
+import { NgForm } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/Operator/catch";
 
@@ -17,6 +18,9 @@ export class CourseEditComponent implements OnInit {
     course: Course = new Course();
     authors: Author[];
     showModal: boolean = false;
+    modalTitle: string = "Error";
+    errorMessage = "Please correct wrong values before save";
+    errors: any[] = [];
 
     constructor(
         private loginService: LoginService,
@@ -29,10 +33,6 @@ export class CourseEditComponent implements OnInit {
     }
 
     ngOnInit() {
-        if (!this.loginService.isAuthorized()) {
-            this.router.navigate([""]);
-        }
-
         this.route.params.subscribe((params: any) => {
             if (params.id !== "new") {
                 this.courseService.getById(+params.id).subscribe(course => {
@@ -53,6 +53,7 @@ export class CourseEditComponent implements OnInit {
     save(form) {
         let formValue = form.value;
         if (!form.valid) {
+            this.collectErrors(form);
             this.showModal = true;
             return;
         }
@@ -73,5 +74,35 @@ export class CourseEditComponent implements OnInit {
 
     onModalCancel() {
         this.showModal = false;
+    }
+
+    collectErrors(form: NgForm): void {
+        this.errors = [];
+        for (let i in form.controls) {
+            if (i && form.controls.hasOwnProperty(i)) {
+                let control = form.controls[i];
+                if (control.errors) {
+                    switch (i) {
+                        case "name":
+                            this.errors.push("name shouldn't be empty");
+                            break;
+                        case "summary":
+                            this.errors.push("summary shouldn't be empty");
+                            break;
+                        case "date":
+                            this.errors.push("date should have format mm.dd.yyyy");
+                            break;
+                        case "duration":
+                            this.errors.push("duration shouldn't be empty");
+                            break;
+                        case "authors":
+                            this.errors.push("at least one author should be selected");
+                            break;
+                        default:
+                            throw new Error(`unexpected form control name "${i}"`);
+                    }
+                }
+            }
+        }
     }
 }

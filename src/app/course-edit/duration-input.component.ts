@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, OnInit, forwardRef, ElementRef, ViewChild, Renderer } from '@angular/core';
+import { Component, Input, EventEmitter, OnInit, forwardRef, ElementRef, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
@@ -22,30 +22,20 @@ const nullCallback = (arg?: any) => {};
     providers: [DURATION_INPUT_VALUE_ACCESSOR]
 })
 export class DurationInputComponent implements ControlValueAccessor {
-    @ViewChild("dateInput") input: ElementRef;
     private _value: string;
 
     private onTouched: () => void = nullCallback;
     private onChanged: (_: any) => void = nullCallback;
-
-    constructor(private renderer: Renderer) { }
 
     get value(): string {
         return "" + this._value;
     }
 
     set value(value: string) {
-        if (value !== this._value && (!value || value.toString().match(/^\d{0,15}$/g))) {
+        if (value !== this._value) {
             this._value = value;
             this.onChanged(this.value);
         }
-        else {
-            this.updateInput();
-        }
-    }
-
-    updateInput() {
-        this.renderer.setElementProperty(this.input.nativeElement, "value", this.value);
     }
 
     writeValue(value: string): void {

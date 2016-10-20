@@ -1,1 +1,2 @@
-export * from "./date-input.directive";
+export * from "./number-input.directive";
+export * from "./regex-input.directive";

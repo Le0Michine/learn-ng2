@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers } from "@angular/http";
+import { HttpHelperService } from "./http-helper.service";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/concatMap";
 import "rxjs/add/observable/of";
@@ -12,17 +13,16 @@ export class CourseService {
     private headers = new Headers({"Content-Type": "application/json"});
     private coursesUrl = "/app/courses";
 
-    constructor(private http: Http, private errorHandler: ErrorHandlerService) { }
+    constructor(private http: Http, private errorHandler: ErrorHandlerService, private httpHelper: HttpHelperService) { }
 
     getCourses(): Observable<Course[]> {
-        // TODO add mapper
-        return this.http.get(this.coursesUrl).map(response => response.json().data as Course[]);
+        return this.httpHelper.get(this.coursesUrl).map(items => items.map(x => this.toCourseModel(x)));
     }
 
     getById(id: number) {
         let url = `${this.coursesUrl}/${id}`;
-        return this.errorHandler.catch(this.http.get(url)
-            .map(response => response.json().data), [], `get by id ${id}`);
+        return this.errorHandler.catch(this.httpHelper.get(url)
+            .map(x => this.toCourseModel(x)), null, `get by id ${id}`);
     }
 
     removeCourse(id: number) {
@@ -59,5 +59,16 @@ export class CourseService {
     searchByDate(term: string): Observable<Course[]> {
         return this.errorHandler.catch(this.http.get(`${this.coursesUrl}?date=${term}`)
             .map(r => r.json().data), [], `search course by date ${term}`);
+    }
+
+    private toCourseModel(json) {
+        let course = new Course();
+        course.authors = json.authors;
+        course.id = +json.id;
+        course.creatingDate = new Date(json.creatingDate);
+        course.duration = +json.duration;
+        course.name = json.name;
+        course.summary = json.summary;
+        return course;
     }
 }

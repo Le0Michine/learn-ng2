@@ -58,4 +58,12 @@
         </form>
     </div>
 </div>
-<modal-dialog *ngIf="showModal" [hideCancelButton]="true" (onOkButtonClick)="onModalCancel()"></modal-dialog>
+<modal-dialog
+    *ngIf="showModal"
+    [title]="modalTitle"
+    [severity]="'error'"
+    [mainMessage]="errorMessage"
+    [messageDetails]="errors"
+    [hideCancelButton]="true"
+    (onOkButtonClick)="onModalCancel()"
+></modal-dialog>

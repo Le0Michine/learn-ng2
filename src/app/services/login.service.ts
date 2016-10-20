@@ -1,4 +1,5 @@
 import { Injectable, Inject } from "@angular/core";
+import { CanActivate } from "@angular/router";
 import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/throw";
@@ -8,7 +9,7 @@ import { LoacalStorageService } from "./local-storage.service";
 import { User } from "../models";
 
 @Injectable()
-export class LoginService {
+export class LoginService implements CanActivate {
     private user: User;
     private onLogin: BehaviorSubject<User> = new BehaviorSubject(null);
 
@@ -35,6 +36,10 @@ export class LoginService {
     }
 
     public isAuthorized(): boolean {
+        return this.onLogin.value ? true : false;
+    }
+
+    public canActivate(): boolean {
         return this.onLogin.value ? true : false;
     }
 

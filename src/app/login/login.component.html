@@ -8,17 +8,15 @@
             <div class="col-md-7">
                 <input
                   #userNameInput
+                  userName
+                  ngModel
                   id="login"
                   name="login"
                   type="text"
                   class="form-control"
-                  userName
-                  ngModel
-                  (blur)="showLoginRequiredHint = !userNameInput.value"
-                  (input)="showLoginRequiredHint = !userNameInput.value"
                 >
             </div>
-            <div class="col-md-1" *ngIf="showLoginRequiredHint">
+            <div class="col-md-1" *ngIf="isTouchedAndInvalid(form?.form.controls.login)">
                 <span class="text-danger">*enter</span>
             </div>
         </div>
@@ -27,17 +25,15 @@
             <div class="col-md-7">
                 <input
                   #passwordInput
+                  password
                   id="password"
                   name="password"
                   type="password"
                   class="form-control"
-                  password
                   [(ngModel)]="user.password"
-                  (blur)="showPasswordRequiredHint = !passwordInput.value"
-                  (input)="showPasswordRequiredHint = !passwordInput.value"
                 >
             </div>
-            <div class="col-md-1" *ngIf="showPasswordRequiredHint">
+            <div class="col-md-1" *ngIf="isTouchedAndInvalid(form?.form.controls.password)">
                 <span class="text-danger">*enter</span>
             </div>
         </div>
