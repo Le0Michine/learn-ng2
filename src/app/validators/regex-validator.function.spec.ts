@@ -64,5 +64,5 @@ describe("Regex validator", () => {
             actual: actual
         };
         return error;
-    }
+    };
 });

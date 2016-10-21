@@ -8,13 +8,13 @@ export * from "./error-handler.service"
 export * from "./auth.guard"
 export * from "./http-helper.service"
 
-import { LoginService } from "./login.service"
-import { LocalStorageService } from "./local-storage.service"
-import { CourseService } from "./course.service"
-import { AuthorService } from "./author.service"
-import { BreadcrumbService } from "./breadcrumb.service"
-import { ErrorHandlerService } from "./error-handler.service"
-import { HttpHelperService } from "./http-helper.service"
+import { LoginService } from "./login.service";
+import { LocalStorageService } from "./local-storage.service";
+import { CourseService } from "./course.service";
+import { AuthorService } from "./author.service";
+import { BreadcrumbService } from "./breadcrumb.service";
+import { ErrorHandlerService } from "./error-handler.service";
+import { HttpHelperService } from "./http-helper.service";
 
 export const SERVICES = [
     LoginService,
