@@ -12,7 +12,7 @@ export class PasswordValidator implements Validator {
     validator: (c: FormControl) => any = Validators.nullValidator;
 
     constructor() {
-        this.validator = regExValidator(/^[0-9a-zA-Z]+$/, "password", "latin letters or digits only", false); 
+        this.validator = regExValidator(/^[0-9a-zA-Z]*$/, "password", "latin letters or digits only"); 
     }
 
     validate(control: FormControl): {[key: string]: any} {
