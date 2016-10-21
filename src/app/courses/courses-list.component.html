@@ -23,12 +23,12 @@
 </div>
 <modal-dialog
     *ngIf="removeDialogShow"
-    [severity]="'warning'"
-    [title]="removeConfirmTitle"
-    [mainMessage]="removeMessage"
+    severity="warning"
+    title="Remove course"
+    mainMessage="Are you sure you want to remove this course?"
     [messageDetails]="removeDetails"
-    [okButtonText]="'Yes'"
-    [cancelButtonText]="'No'"
+    okButtonText="Yes"
+    cancelButtonText="No"
     (onOkButtonClick)="removeDialogClose.next(true)"
     (onCancelButtonClick)="removeDialogClose.next(false)"
 ></modal-dialog>

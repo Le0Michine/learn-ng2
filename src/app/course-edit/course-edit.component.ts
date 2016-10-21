@@ -2,6 +2,7 @@ import { Component, Input, EventEmitter, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { NgForm } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
+import { Subject } from "rxjs/Subject";
 import "rxjs/add/Operator/catch";
 
 import { User, Course, Author } from "../models";
@@ -17,9 +18,9 @@ import { LoginService, LoacalStorageService, CourseService, BreadcrumbService, A
 export class CourseEditComponent implements OnInit {
     course: Course = new Course();
     authors: Author[];
-    showModal: boolean = false;
-    modalTitle: string = "Error";
-    errorMessage = "Please correct wrong values before save";
+    showFormErrorsModal: boolean = false;
+    showCancelFormConfirmationModal: boolean = false;
+    cancelConfirmation: Subject<boolean> = new Subject();
     errors: any[] = [];
 
     constructor(
@@ -54,7 +55,7 @@ export class CourseEditComponent implements OnInit {
         let formValue = form.value;
         if (!form.valid) {
             this.collectErrors(form);
-            this.showModal = true;
+            this.showFormErrorsModal = true;
             return;
         }
 
@@ -68,12 +69,27 @@ export class CourseEditComponent implements OnInit {
         o.subscribe(() => this.goToCoursesList());
     }
 
+    cancel(form: NgForm) {
+        if (form.dirty) {
+            this.showCancelFormConfirmationModal = true;
+            this.cancelConfirmation.first().subscribe(cancel => {
+                if (cancel) {
+                    this.goToCoursesList();
+                } else {
+                    this.showCancelFormConfirmationModal = false;
+                }
+            });
+        } else {
+            this.goToCoursesList();
+        }
+    }
+
     goToCoursesList() {
         this.router.navigate(["courses"]);
     }
 
     onModalCancel() {
-        this.showModal = false;
+        this.showFormErrorsModal = false;
     }
 
     collectErrors(form: NgForm): void {

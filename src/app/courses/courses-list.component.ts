@@ -25,8 +25,6 @@ export class CoursesListComponent {
     errorMessage: string = "";
     courses: Course[] = [];
 
-    removeConfirmTitle: string = "Remove course";
-    removeMessage: string = "Are you sure you want to remove this course?";
     removeDetails: string[] = [];
     removeDialogClose: Subject<boolean> = new Subject();
     removeDialogShow: boolean = false;
