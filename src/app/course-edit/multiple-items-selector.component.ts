@@ -42,22 +42,23 @@ export class MultipleItemsSelectorComponent implements ControlValueAccessor {
 
     set value(value: any[]) {
         this._items = value || [];
-        if (this.value.length) {
-            this.selectedItem = 0;
-        }
-        else {
-            this.selectedItem = -1;
-        }
+        this.updateSelectedIndexes();
         this.onChanged(value);
     }
 
     writeValue(value: any[]): void {
         this._items = value || [];
+        this.updateSelectedIndexes();
+    }
+
+    updateSelectedIndexes() {
         if (this.value.length) {
             this.selectedItem = 0;
+            this.selectedItemFromPool = -1;
         }
         else {
             this.selectedItem = -1;
+            this.selectedItemFromPool = 0;
         }
     }
 
