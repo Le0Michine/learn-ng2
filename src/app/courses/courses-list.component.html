@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-md-12">
         <div class="col-md-4">
-            <input #searchInput type="text" class="form-control" (keyup)="search(searchInput.value)" placeholder="name fragment or regexp">
+            <input #searchInput type="text" (keydown)="onKeyDown($event, searchInput.value)" class="form-control" placeholder="name fragment or regexp">
         </div>
         <div class="col-md-2">
-            <!--<button class="btn btn-default">Find</button>-->
+            <button class="btn btn-default" (click)="search(searchInput.value)">Find</button>
         </div>
         <div class="col-md-3 col-md-offset-3">
             <button class="btn btn-default" (click)="add()"><span class="material-icons pull-left">add</span>Add course</button>

@@ -1,7 +1,6 @@
 import { Component, animate, style, trigger, transition, state } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Subject } from "rxjs/Subject";
 import "rxjs/add/Operator/first";
 import "rxjs/add/Operator/catch";
@@ -20,7 +19,6 @@ import { LoginService, LocalStorageService, CourseService, BreadcrumbService } f
     templateUrl: "courses-list.component.html",
 })
 export class CoursesListComponent {
-    onSearch: BehaviorSubject<string> = new BehaviorSubject("");
     user: User = new User();
     errorMessage: string = "";
     courses: Course[] = [];
@@ -39,14 +37,11 @@ export class CoursesListComponent {
 
     ngOnInit() {
         this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}]);
-        this.courseService.getCourses().subscribe(courses => this.courses);
-        this.subscribeOnCourses(this.onSearch
-            .debounceTime(300)
-            .switchMap(term => term ? this.courseService.searchByName(term) : this.courseService.getCourses()));
+        this.courseService.getCourses().subscribe(courses => this.courses = courses);
     }
 
     search(term: string) {
-        this.onSearch.next(term);
+        this.courseService.searchByName(term).subscribe(courses => this.courses = courses);
     }
 
     subscribeOnCourses(observable: Observable<Course[]>) {
@@ -81,5 +76,13 @@ export class CoursesListComponent {
 
     edit(id: number) {
         this.router.navigate(["courses", id]);
+    }
+
+    onKeyDown(event: KeyboardEvent, inputValue: string) {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            event.stopPropagation();
+            this.search(inputValue);
+        }
     }
 }
