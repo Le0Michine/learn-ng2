@@ -27,7 +27,7 @@ export class CourseService {
 
     removeCourse(id: number) {
         let url = `${this.coursesUrl}/${id}`;
-        return this.http.delete(url, { headers: this.headers }).concatMap(response => {
+        return this.http.delete(url, { headers: this.headers }).catch(error => Observable.of(error)).concatMap(response => {
             if (response.ok) {
                 return Observable.of(true);
             } else {
@@ -45,15 +45,15 @@ export class CourseService {
             .map(response => course);
     }
 
-    addCourse(course: Course) {
+    addCourse(course: Course): Observable<Course> {
         return this.errorHandler
             .catch(this.http.post(this.coursesUrl, JSON.stringify(course), {headers: this.headers})
-                .map(r => r.json().data), [], `add course ${JSON.stringify(course)}`);
+                .map(r => this.toCourseModel(r.json().data)), null, `add course ${JSON.stringify(course)}`);
     }
 
     searchByName(term: string): Observable<Course[]> {
         return this.errorHandler.catch(this.http.get(`${this.coursesUrl}?name=${term}`)
-            .map(r => r.json().data), [], `search course by name ${term}`);
+            .map(r => r.json().data.map(x => this.toCourseModel(x))), [], `search course by name ${term}`);
     }
 
     private toCourseModel(json) {
