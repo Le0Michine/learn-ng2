@@ -1,5 +1,5 @@
 import { Directive } from "@angular/core";
-import { Validator, Validators, FormControl, NG_VALIDATORS, ValidatorFn, NgForm } from "@angular/forms";
+import { Validator, Validators, FormControl, NG_VALIDATORS, ValidatorFn, NgForm, FormGroup } from "@angular/forms";
 
 @Directive({
     selector: "[errors]",
@@ -10,16 +10,18 @@ import { Validator, Validators, FormControl, NG_VALIDATORS, ValidatorFn, NgForm 
 export class ErrorsValidator implements Validator {
     validator: (c: FormControl) => any = Validators.nullValidator;
 
-    validate(form: NgForm): any {
+    validate(form: FormGroup): any {
         let errors = [];
         for (let i in form.controls) {
             if (form.controls.hasOwnProperty(i)) {
                 let control = form.controls[i];
-                errors.push(control.errors);
+                if (control.errors) {
+                    errors.push({ controlName: i, errors: control.errors });
+                }
             }
         }
         return !errors.length
             ? null
-            : errors;
+            : {errorsCollection: errors};
     }
 }

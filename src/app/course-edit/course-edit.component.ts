@@ -6,7 +6,7 @@ import { Subject } from "rxjs/Subject";
 import "rxjs/add/Operator/catch";
 
 import { User, Course, Author } from "../models";
-import { LoginService, LoacalStorageService, CourseService, BreadcrumbService, AuthorService } from "../services";
+import { LoginService, LocalStorageService, CourseService, BreadcrumbService, AuthorService } from "../services";
 
 @Component({
     selector: "course-edit",
@@ -25,7 +25,7 @@ export class CourseEditComponent implements OnInit {
 
     constructor(
         private loginService: LoginService,
-        private storage: LoacalStorageService,
+        private storage: LocalStorageService,
         private courseService: CourseService,
         private authorService: AuthorService,
         private location: BreadcrumbService,
@@ -54,7 +54,8 @@ export class CourseEditComponent implements OnInit {
     save(form) {
         let formValue = form.value;
         if (!form.valid) {
-            this.collectErrors(form);
+            console.log(form.errors);
+            this.collectErrors(form.errors);
             this.showFormErrorsModal = true;
             return;
         }
@@ -92,32 +93,27 @@ export class CourseEditComponent implements OnInit {
         this.showFormErrorsModal = false;
     }
 
-    collectErrors(form: NgForm): void {
+    collectErrors(formErrors: any): void {
         this.errors = [];
-        for (let i in form.controls) {
-            if (i && form.controls.hasOwnProperty(i)) {
-                let control = form.controls[i];
-                if (control.errors) {
-                    switch (i) {
-                        case "name":
-                            this.errors.push("name shouldn't be empty");
-                            break;
-                        case "summary":
-                            this.errors.push("summary shouldn't be empty");
-                            break;
-                        case "date":
-                            this.errors.push("date should have format mm.dd.yyyy");
-                            break;
-                        case "duration":
-                            this.errors.push("duration shouldn't be empty");
-                            break;
-                        case "authors":
-                            this.errors.push("at least one author should be selected");
-                            break;
-                        default:
-                            throw new Error(`unexpected form control name "${i}"`);
-                    }
-                }
+        for (let error of formErrors.errorsCollection) {
+            switch (error.controlName) {
+                case "name":
+                    this.errors.push("name shouldn't be empty");
+                    break;
+                case "summary":
+                    this.errors.push("summary shouldn't be empty");
+                    break;
+                case "date":
+                    this.errors.push("date should have format mm.dd.yyyy");
+                    break;
+                case "duration":
+                    this.errors.push("duration shouldn't be empty");
+                    break;
+                case "authors":
+                    this.errors.push("at least one author should be selected");
+                    break;
+                default:
+                    throw new Error(`unexpected form control name "${error.controlName}"`);
             }
         }
     }

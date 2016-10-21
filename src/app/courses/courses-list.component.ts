@@ -10,7 +10,7 @@ import "rxjs/add/Operator/distinctUntilChanged";
 import "rxjs/add/Operator/switchMap";
 
 import { User, Course } from "../models";
-import { LoginService, LoacalStorageService, CourseService, BreadcrumbService } from "../services";
+import { LoginService, LocalStorageService, CourseService, BreadcrumbService } from "../services";
 
 @Component({
     selector: "courses-list",
@@ -31,7 +31,7 @@ export class CoursesListComponent {
 
     constructor(
         private loginService: LoginService,
-        private storage: LoacalStorageService,
+        private storage: LocalStorageService,
         private courseService: CourseService,
         private location: BreadcrumbService,
         private router: Router) {

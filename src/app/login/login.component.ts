@@ -5,7 +5,7 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/Operator/catch";
 
 import { User } from "../models";
-import { LoginService, LoacalStorageService, BreadcrumbService } from "../services";
+import { LoginService, LocalStorageService, BreadcrumbService } from "../services";
 
 @Component({
     selector: "login",
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
 
     constructor(
         private loginService: LoginService,
-        private storage: LoacalStorageService,
+        private storage: LocalStorageService,
         private location: BreadcrumbService,
         private router: Router) { }
 

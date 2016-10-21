@@ -6,7 +6,7 @@ import "rxjs/add/Operator/catch";
 
 import { AppState } from '../app.service';
 import { User, Course } from "../models";
-import { LoginService, LoacalStorageService, CourseService } from "../services";
+import { LoginService, CourseService } from "../services";
 
 export const DURATION_INPUT_VALUE_ACCESSOR: any = {
     provide: NG_VALUE_ACCESSOR,

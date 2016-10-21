@@ -5,7 +5,7 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/throw";
 import "rxjs/add/observable/of";
 
-import { LoacalStorageService } from "./local-storage.service";
+import { LocalStorageService } from "./local-storage.service";
 import { User } from "../models";
 
 @Injectable()
@@ -13,7 +13,7 @@ export class LoginService implements CanActivate {
     private user: User;
     private onLogin: BehaviorSubject<User> = new BehaviorSubject(null);
 
-    constructor(private storage: LoacalStorageService) {
+    constructor(private storage: LocalStorageService) {
         this.user = new User();
         this.user.id = 1;
         this.user.name = "q";

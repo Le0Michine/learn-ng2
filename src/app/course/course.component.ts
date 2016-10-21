@@ -4,7 +4,7 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/Operator/catch";
 
 import { Course } from "../models";
-import { LoginService, LoacalStorageService, CourseService } from "../services";
+import { LoginService, LocalStorageService, CourseService } from "../services";
 
 @Component({
     selector: "course",
@@ -21,7 +21,7 @@ export class CourseComponent {
     constructor(
         private loginService: LoginService,
         private courseService: CourseService,
-        private storage: LoacalStorageService,
+        private storage: LocalStorageService,
         private router: Router) {
     }
 

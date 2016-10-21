@@ -16,8 +16,8 @@ import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { App } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import { AppState, InternalStateType } from './app.service';
-import { LoginService, LoacalStorageService, InMemoryDataService, CourseService, BreadcrumbService, AuthorService, HttpHelperService, ErrorHandlerService, AuthGuard } from "./services";
-import { PasswordValidator, UserNameValidator, DateValidator, NumberValidator, NonEmptyListValidator, DateStringValidator } from "./validators";
+import { SERVICES, InMemoryDataService, AuthGuard } from "./services";
+import { VALIDATORS } from "./validators";
 import { NumberInputDirective, RegexInputDirective } from "./directives";
 import { DurationPipe, SafeStylePipe, SafeHtmlPipe } from "./pipes";
 import { LoginComponent } from './login';
@@ -57,12 +57,7 @@ type StoreType = {
     MultipleItemsSelectorComponent,
     BreadcrumbComponent,
     ModalDialogComponent,
-    PasswordValidator,
-    UserNameValidator,
-    DateValidator,
-    DateStringValidator,
-    NumberValidator,
-    NonEmptyListValidator,
+    ...VALIDATORS,
     DurationPipe,
     SafeStylePipe,
     SafeHtmlPipe,
@@ -79,15 +74,8 @@ type StoreType = {
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ENV_PROVIDERS,
     APP_PROVIDERS,
-    BreadcrumbService,
-    { provide: LoacalStorageService, useClass: LoacalStorageService },
-    LoginService,
-    CourseService,
-    AuthorService,
-    ErrorHandlerService,
-    HttpHelperService,
-    AuthGuard,
-    { provide: "AuthGuard", useClass: AuthGuard }
+    ...SERVICES,
+    { provide: AuthGuard, useClass: AuthGuard }
   ]
 })
 export class AppModule {
