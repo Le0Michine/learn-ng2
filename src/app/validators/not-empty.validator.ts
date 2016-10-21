@@ -12,10 +12,11 @@ export class NotEmptyValidator implements Validator {
     validator: (c: FormControl) => any = Validators.nullValidator;
 
     constructor() {
-        this.validator = regExValidator(/^.+$/, "notEmpty", "field shouldn't be empty"); 
+        this.validator = regExValidator(/^.+$/, "notEmpty", "field shouldn't be empty", true); 
     }
 
     validate(control: FormControl): {[key: string]: any} {
+        console.log("not empty", control.value);
         return this.validator(control);
     }
 }

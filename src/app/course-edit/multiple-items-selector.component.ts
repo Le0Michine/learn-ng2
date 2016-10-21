@@ -52,7 +52,13 @@ export class MultipleItemsSelectorComponent implements ControlValueAccessor {
     }
 
     writeValue(value: any[]): void {
-        this.value = value;
+        this._items = value || [];
+        if (this.value.length) {
+            this.selectedItem = 0;
+        }
+        else {
+            this.selectedItem = -1;
+        }
     }
 
     registerOnChange(callback: (_: any) => void): void {

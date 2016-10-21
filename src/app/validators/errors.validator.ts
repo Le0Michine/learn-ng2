@@ -22,6 +22,6 @@ export class ErrorsValidator implements Validator {
         }
         return !errors.length
             ? null
-            : {errorsCollection: errors};
+            : { errorsCollection: errors };
     }
 }

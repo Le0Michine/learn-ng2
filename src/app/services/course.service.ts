@@ -56,11 +56,6 @@ export class CourseService {
             .map(r => r.json().data), [], `search course by name ${term}`);
     }
 
-    searchByDate(term: string): Observable<Course[]> {
-        return this.errorHandler.catch(this.http.get(`${this.coursesUrl}?date=${term}`)
-            .map(r => r.json().data), [], `search course by date ${term}`);
-    }
-
     private toCourseModel(json) {
         let course = new Course();
         course.authors = json.authors;

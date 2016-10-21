@@ -40,7 +40,7 @@ export class DurationInputComponent implements ControlValueAccessor {
 
     writeValue(value: string): void {
         if (!value || value !== this.value || value.toString() !== this.value.toString()) {
-            this.value = value || "";
+            this._value = value || "";
         }
     }
 

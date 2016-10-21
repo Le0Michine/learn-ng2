@@ -56,7 +56,7 @@ export class DateInputComponent implements ControlValueAccessor {
     writeValue(value: Date): void {
         if (!value || value !== this.value || value.toString() !== this.value.toString()) {
             this.value = value;
-            this.stringValue = this.dateToString(value);
+            this._stringValue = this.dateToString(value);
         }
     }
 

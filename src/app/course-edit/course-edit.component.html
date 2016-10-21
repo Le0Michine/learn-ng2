@@ -42,16 +42,16 @@
             <div class="form-group">
                 <label for="authors" class="col-md-2 control-label">Authors</label>
                 <div class="col-md-7">
-                    <multiple-items-selector nonEmptyList name="authors" [(ngModel)]="course.authors" [itemsPool]="authors"></multiple-items-selector>
+                    <multiple-items-selector nonEmptyList name="authors" [(ngModel)]="selectedAuthors" [itemsPool]="authors"></multiple-items-selector>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-3">
-                    <button type="submit" class="btn btn-default" (click)="save(form)"
+                    <button type="button" class="btn btn-default" (click)="save(form)"
                     >Save</button>
                 </div>
                 <div class="col-md-3">
-                    <button class="btn btn-default" (click)="cancel(form)"
+                    <button type="button" class="btn btn-default" (click)="cancel(form.form)"
                     >Cancel</button>
                 </div>
             </div>

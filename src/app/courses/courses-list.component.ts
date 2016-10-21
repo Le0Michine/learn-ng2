@@ -39,7 +39,7 @@ export class CoursesListComponent {
 
     ngOnInit() {
         this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}]);
-        this.search("");
+        this.courseService.getCourses().subscribe(courses => this.courses);
         this.subscribeOnCourses(this.onSearch
             .debounceTime(300)
             .switchMap(term => term ? this.courseService.searchByName(term) : this.courseService.getCourses()));

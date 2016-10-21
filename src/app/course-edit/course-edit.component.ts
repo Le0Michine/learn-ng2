@@ -1,9 +1,10 @@
 import { Component, Input, EventEmitter, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
-import { NgForm } from "@angular/forms";
+import { FormGroup } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
 import "rxjs/add/Operator/catch";
+import "rxjs/add/Observable/combineLatest";
 
 import { User, Course, Author } from "../models";
 import { LoginService, LocalStorageService, CourseService, BreadcrumbService, AuthorService } from "../services";
@@ -18,6 +19,7 @@ import { LoginService, LocalStorageService, CourseService, BreadcrumbService, Au
 export class CourseEditComponent implements OnInit {
     course: Course = new Course();
     authors: Author[];
+    selectedAuthors: Author[];
     showFormErrorsModal: boolean = false;
     showCancelFormConfirmationModal: boolean = false;
     cancelConfirmation: Subject<boolean> = new Subject();
@@ -35,32 +37,30 @@ export class CourseEditComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe((params: any) => {
-            if (params.id !== "new") {
-                this.courseService.getById(+params.id).subscribe(course => {
-                    this.course = course;
-                    this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}, {title: course.name, navigationLink: ""}]);
-                });
-            } else {
-                this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}, {title: "new", navigationLink: ""}]);
-                this.course.authors = [];
-            }
-        });
-
-        this.authorService.getAuthors().subscribe(authors => {
-            this.authors = authors.filter(x => this.course.authors.findIndex(y => y.id === x.id) === -1);
+            Observable.combineLatest(
+                params.id !== "new"
+                    ? this.courseService.getById(+params.id)
+                    : Observable.of(this.course),
+                this.authorService.getAuthors())
+            .subscribe(result => {
+                this.course = result[0];
+                let authors = result[1];
+                this.authors = authors.filter(x => this.course.authors.indexOf(x.id) === -1);
+                this.selectedAuthors = authors.filter(x => this.course.authors.indexOf(x.id) > -1);
+            });
+            this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}, {title: this.course.name, navigationLink: ""}]);
         });
     }
 
     save(form) {
         let formValue = form.value;
         if (!form.valid) {
-            console.log(form.errors);
             this.collectErrors(form.errors);
             this.showFormErrorsModal = true;
             return;
         }
 
-        this.course.authors = formValue.authors;
+        this.course.authors = formValue.authors.map(x => x.id);
         this.course.duration = formValue.duration;
         this.course.name = formValue.name;
         this.course.creatingDate = formValue.date;
@@ -70,7 +70,7 @@ export class CourseEditComponent implements OnInit {
         o.subscribe(() => this.goToCoursesList());
     }
 
-    cancel(form: NgForm) {
+    cancel(form: FormGroup) {
         if (form.dirty) {
             this.showCancelFormConfirmationModal = true;
             this.cancelConfirmation.first().subscribe(cancel => {
