@@ -16,7 +16,6 @@ export class NotEmptyValidator implements Validator {
     }
 
     validate(control: FormControl): {[key: string]: any} {
-        console.log("not empty", control.value);
         return this.validator(control);
     }
 }
