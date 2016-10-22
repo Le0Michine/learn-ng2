@@ -15,6 +15,17 @@ const DefinePlugin = require('webpack/lib/DefinePlugin');
  */
 const ENV = process.env.ENV = process.env.NODE_ENV = 'test';
 
+const tsmaploaderparams = {
+    // use inline sourcemaps for "karma-remap-coverage" reporter
+    sourceMap: false,
+    inlineSourceMap: true,
+    compilerOptions: {
+      // Remove TypeScript helpers to be injected
+      // below by DefinePlugin
+      removeComments: true
+  }
+};
+
 /**
  * Webpack configuration
  *
@@ -113,7 +124,8 @@ module.exports = function(options) {
           test: /\.ts$/,
           loaders: [
             '@angularclass/hmr-loader?pretty=true&prod=false',
-            'awesome-typescript-loader',
+            // to see ts sources in coverage
+            'awesome-typescript-loader?' + JSON.stringify(tsmaploaderparams),
             'angular2-template-loader'
           ],
           exclude: [/\.e2e\.ts$/]
