@@ -27,6 +27,9 @@ require('zone.js/dist/jasmine-patch'); // put here since zone.js 0.6.14
 require('zone.js/dist/async-test');
 require('zone.js/dist/fake-async-test');
 
+require('intl');
+require('../node_modules/intl/locale-data/jsonp/en');
+
 // RxJS
 require('rxjs/Rx');
 

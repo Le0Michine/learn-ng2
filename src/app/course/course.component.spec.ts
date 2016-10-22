@@ -9,27 +9,20 @@ import { Course } from "../models";
 import { CourseComponent } from "./course.component";
 import { DurationPipe } from "../pipes";
 
-@Pipe({name: "date"})
-class DatePipe {
-    transform(v, format) {
-        return "02.12.2012";
-    }
-}
-
 describe("Course component", () => {
     let fixture: ComponentFixture<CourseComponent>;
     let component: CourseComponent;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [ CourseComponent, DurationPipe, DatePipe ]
+            declarations: [ CourseComponent, DurationPipe ]
         });
         fixture = TestBed.createComponent(CourseComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
 
-    it("should display course info", () => {
+    fit("should display course info", () => {
         // arrange
         let course = createCourse();
         component.course = course;
@@ -96,7 +89,7 @@ describe("Course component", () => {
 
     let createCourse = function () {
         let course = new Course();
-        course.creatingDate = new Date("2012-2-12");
+        course.creatingDate = new Date("2012-02-12");
         course.name = "test course";
         course.summary = "test summary";
         course.duration = 124;
