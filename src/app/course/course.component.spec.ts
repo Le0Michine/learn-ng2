@@ -72,13 +72,13 @@ describe("Course component", () => {
         component.course = new Course();
         fixture.detectChanges();
 
-        let onclick = component.onRemove.subscribe(() => {
+        // act
+        setTimeout(() => fixture.debugElement.query(By.css(".remove-course-btn")).nativeElement.click(), 0);
+
+        component.onRemove.subscribe(() => {
             // assert
             done();
         });
-
-        // act
-        let name = fixture.debugElement.query(By.css(".remove-course-btn")).nativeElement.click();
     });
 
     it("should rise on edit event", done => {
@@ -86,12 +86,12 @@ describe("Course component", () => {
         component.course = new Course();
         fixture.detectChanges();
 
-        let onclick = component.onEdit.subscribe(() => {
+        // act
+        setTimeout(() => fixture.debugElement.query(By.css(".edit-course-btn")).nativeElement.click(), 0);
+
+        component.onEdit.subscribe(() => {
             // assert
             done();
         });
-
-        // act
-        let name = fixture.debugElement.query(By.css(".edit-course-btn")).nativeElement.click();
     });
 });
