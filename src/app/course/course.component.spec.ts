@@ -24,11 +24,7 @@ describe("Course component", () => {
 
     it("should display course info", () => {
         // arrange
-        let course = new Course();
-        course.creatingDate = new Date("2012-2-12");
-        course.name = "test course";
-        course.summary = "test summary";
-        course.duration = 124;
+        let course = createCourse();
         component.course = course;
         fixture.detectChanges();
 
@@ -47,11 +43,7 @@ describe("Course component", () => {
 
     it("should update course info", () => {
         // arrange
-        let course = new Course();
-        course.creatingDate = new Date("2012-2-12");
-        course.name = "test course";
-        course.summary = "test summary";
-        course.duration = 124;
+        let course = createCourse();
         component.course = course;
         fixture.detectChanges();
         course.summary = "new test summary";
@@ -94,4 +86,13 @@ describe("Course component", () => {
             done();
         });
     });
+
+    let createCourse = function () {
+        let course = new Course();
+        course.creatingDate = new Date("2012-2-12");
+        course.name = "test course";
+        course.summary = "test summary";
+        course.duration = 124;
+        return course;
+    };
 });
