@@ -22,7 +22,7 @@ describe("Course component", () => {
         fixture.detectChanges();
     });
 
-    fit("should display course info", () => {
+    it("should display course info", () => {
         // arrange
         let course = createCourse();
         component.course = course;
