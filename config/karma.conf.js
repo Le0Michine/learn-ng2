@@ -47,7 +47,7 @@ module.exports = function(config) {
     },
 
     // Webpack please don't spam the console when running in karma!
-    webpackMiddleware: { stats: 'errors-only'},
+    webpackMiddleware: { stats: 'errors-only', noInfo: true },
 
     /*
      * test results reporter to use
@@ -94,7 +94,13 @@ module.exports = function(config) {
     singleRun: true
   };
 
-  if (process.env.TRAVIS){
+  if (process.argv.includes("--debug")) {
+    configuration.browsers = ['Chrome'];
+    configuration.singleRun = false;
+    configuration.autoWatch = true;
+  }
+
+  if (process.env.TRAVIS) {
     configuration.browsers = [
       'ChromeTravisCi',
       'PhantomJS'
