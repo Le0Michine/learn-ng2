@@ -1,6 +1,6 @@
 import { inject, TestBed, ComponentFixture } from "@angular/core/testing";
 import { By } from "@angular/platform-browser";
-import { DebugElement } from "@angular/core";
+import { DebugElement, Pipe } from "@angular/core";
 import { HttpModule } from "@angular/http";
 import { InMemoryWebApiModule } from "angular-in-memory-web-api";
 import { Observable } from "rxjs/Rx";
@@ -9,13 +9,20 @@ import { Course } from "../models";
 import { CourseComponent } from "./course.component";
 import { DurationPipe } from "../pipes";
 
+@Pipe({name: "date"})
+class DatePipe {
+    transform(v, format) {
+        return "02.12.2012";
+    }
+}
+
 describe("Course component", () => {
     let fixture: ComponentFixture<CourseComponent>;
     let component: CourseComponent;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            declarations: [ CourseComponent, DurationPipe ]
+            declarations: [ CourseComponent, DurationPipe, DatePipe ]
         });
         fixture = TestBed.createComponent(CourseComponent);
         component = fixture.componentInstance;
