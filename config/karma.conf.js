@@ -100,6 +100,10 @@ module.exports = function(config) {
     configuration.autoWatch = true;
   }
 
+  if (process.argv.includes("--full-coverage")) {
+    process.env["FULL_COVERAGE"] = true;
+  }
+
   if (process.env.TRAVIS) {
     configuration.browsers = [
       'ChromeTravisCi',

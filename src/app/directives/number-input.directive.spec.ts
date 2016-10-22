@@ -5,7 +5,7 @@ import { FormsModule } from "@angular/forms";
 
 import { NumberInputDirective } from "./number-input.directive";
 
-describe("Breadcrumb component", () => {
+describe("NumberInput directive", () => {
     let directive: NumberInputDirective;
 
     beforeEach(() => {

@@ -12,7 +12,7 @@ import { NumberInputDirective } from "./number-input.directive";
 })
 class TestComponent { }
 
-describe("Breadcrumb component", () => {
+describe("NumberInput directive", () => {
     let fixture: ComponentFixture<TestComponent>;
     let component: TestComponent;
 
