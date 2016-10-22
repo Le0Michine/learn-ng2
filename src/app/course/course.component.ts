@@ -4,7 +4,6 @@ import { Observable } from "rxjs/Observable";
 import "rxjs/add/Operator/catch";
 
 import { Course } from "../models";
-import { LoginService, LocalStorageService, CourseService } from "../services";
 
 @Component({
     selector: "course",
@@ -15,15 +14,8 @@ import { LoginService, LocalStorageService, CourseService } from "../services";
 })
 export class CourseComponent {
     @Input() course: Course;
-    @Output() onRemove: EventEmitter<number> = new EventEmitter();
-    @Output() onEdit: EventEmitter<number> = new EventEmitter();
-
-    constructor(
-        private loginService: LoginService,
-        private courseService: CourseService,
-        private storage: LocalStorageService,
-        private router: Router) {
-    }
+    @Output() onRemove: EventEmitter<number> = new EventEmitter<number>();
+    @Output() onEdit: EventEmitter<number> = new EventEmitter<number>();
 
     ngOnInit() { }
 
