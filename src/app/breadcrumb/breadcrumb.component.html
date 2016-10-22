@@ -2,5 +2,5 @@
     <div class="pull-left breadcrumb-item"
         [class.clickable]="item.navigationLink"
         *ngFor="let last=last; let item of items | async"
-    ><a *ngIf="item.navigationLink" routerLink="{{item.navigationLink}}"></a><h1>{{item.title}}</h1><i *ngIf="!last" class="material-icons">chevron_right</i></div>
+    ><a *ngIf="item.navigationLink" routerLink="{{item.navigationLink}}"></a><h1 class="breadcrumb-item-title">{{item.title}}</h1><i *ngIf="!last" class="material-icons">chevron_right</i></div>
 </div>
