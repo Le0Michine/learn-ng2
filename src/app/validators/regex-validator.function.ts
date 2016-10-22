@@ -8,4 +8,4 @@ export const regExValidator = (regExp: RegExp, name: string, message: string) =>
         actual: value
     };
     return regExp.test(value) && value ? null : error;
-}
+};

@@ -29,7 +29,7 @@ describe("Breadcrumb service", () => {
     it("should be possible to set current state", done => {
         // arrange
         let state: BreadcrumbItem[] = [{ navigationLink: "", title: "newState" }];
-        
+
         // act
         breadcrumbService.setCurrentState(state);
 

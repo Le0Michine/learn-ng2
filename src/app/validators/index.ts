@@ -26,4 +26,4 @@ export const VALIDATORS = [
     UserNameValidator,
     PasswordValidator,
     NumberValidator
-]
+];

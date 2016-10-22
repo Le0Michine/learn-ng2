@@ -22,7 +22,7 @@ export class CourseEditComponent implements OnInit {
     selectedAuthors: Author[];
     showFormErrorsModal: boolean = false;
     showCancelFormConfirmationModal: boolean = false;
-    cancelConfirmation: Subject<boolean> = new Subject();
+    cancelConfirmation: Subject<boolean> = new Subject<boolean>();
     errors: any[] = [];
 
     constructor(

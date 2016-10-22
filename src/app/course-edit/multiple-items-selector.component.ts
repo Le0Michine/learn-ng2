@@ -1,10 +1,10 @@
-import { Component, Input, EventEmitter, OnInit, forwardRef, ElementRef, ViewChild, Renderer } from '@angular/core';
+import { Component, Input, EventEmitter, OnInit, forwardRef, ElementRef, ViewChild, Renderer } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/Operator/catch";
 
-import { AppState } from '../app.service';
+import { AppState } from "../app.service";
 import { User, Course } from "../models";
 import { LoginService, CourseService } from "../services";
 
@@ -25,12 +25,12 @@ const nullCallback = (arg?: any) => {};
     providers: [AUTHOR_SELECTOR_VALUE_ACCESSOR]
 })
 export class MultipleItemsSelectorComponent implements ControlValueAccessor {
-    private _items: any[] = [];
     @Input() itemsPool: any[] = [];
 
     selectedItem: number;
     selectedItemFromPool: number;
 
+    private _items: any[] = [];
     private onTouched: () => void = nullCallback;
     private onChanged: (_: any) => void = nullCallback;
 
@@ -55,8 +55,7 @@ export class MultipleItemsSelectorComponent implements ControlValueAccessor {
         if (this.value.length) {
             this.selectedItem = 0;
             this.selectedItemFromPool = -1;
-        }
-        else {
+        } else {
             this.selectedItem = -1;
             this.selectedItemFromPool = 0;
         }

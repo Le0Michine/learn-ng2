@@ -24,7 +24,7 @@ export class CoursesListComponent {
     courses: Course[] = [];
 
     removeDetails: string[] = [];
-    removeDialogClose: Subject<boolean> = new Subject();
+    removeDialogClose: Subject<boolean> = new Subject<boolean>();
     removeDialogShow: boolean = false;
 
     constructor(
@@ -62,7 +62,7 @@ export class CoursesListComponent {
                 this.onRemoveAccept(id);
             }
             this.removeDialogShow = false;
-        })
+        });
     }
 
     onRemoveAccept(id: number) {

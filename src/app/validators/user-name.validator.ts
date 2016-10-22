@@ -12,7 +12,7 @@ export class UserNameValidator implements Validator {
     validator: (c: FormControl) => any = Validators.nullValidator;
 
     constructor() {
-        this.validator = regExValidator(/^[a-zA-Z]+$/, "userName", "latin letters only"); 
+        this.validator = regExValidator(/^[a-zA-Z]+$/, "userName", "latin letters only");
     }
 
     validate(control: FormControl): {[key: string]: any} {

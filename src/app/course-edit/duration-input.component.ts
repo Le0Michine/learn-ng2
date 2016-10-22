@@ -1,10 +1,10 @@
-import { Component, Input, EventEmitter, OnInit, forwardRef, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, EventEmitter, OnInit, forwardRef, ElementRef, ViewChild } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/Operator/catch";
 
-import { AppState } from '../app.service';
+import { AppState } from "../app.service";
 import { User, Course } from "../models";
 import { LoginService, CourseService } from "../services";
 

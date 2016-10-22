@@ -56,7 +56,7 @@ describe("Login service", () => {
 
             // assert
             expect(status).toBe(false);
-            done()
+            done();
         });
     });
 
@@ -68,7 +68,7 @@ describe("Login service", () => {
             // assert
             expect(status).toBe(false);
             expect(result).toBe(false);
-            done()
+            done();
         });
     });
 

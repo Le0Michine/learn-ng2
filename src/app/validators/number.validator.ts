@@ -12,7 +12,7 @@ export class NumberValidator implements Validator {
     validator: (c: FormControl) => any = Validators.nullValidator;
 
     constructor() {
-        this.validator = regExValidator(/^\d+$/, "number", "digits only"); 
+        this.validator = regExValidator(/^\d+$/, "number", "digits only");
     }
 
     validate(control: FormControl): {[key: string]: any} {

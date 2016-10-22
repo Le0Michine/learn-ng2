@@ -1,32 +1,32 @@
-import { NgModule, ApplicationRef } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, NG_VALIDATORS } from '@angular/forms';
-import { HttpModule } from '@angular/http';
-import { RouterModule } from '@angular/router';
-import { removeNgStyles, createNewHosts, createInputTransfer } from '@angularclass/hmr';
+import { NgModule, ApplicationRef } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { FormsModule, NG_VALIDATORS } from "@angular/forms";
+import { HttpModule } from "@angular/http";
+import { RouterModule } from "@angular/router";
+import { removeNgStyles, createNewHosts, createInputTransfer } from "@angularclass/hmr";
 
 /*
  * Platform and Environment providers/directives/pipes
  */
-import { ENV_PROVIDERS } from './environment';
-import { ROUTES } from './app.routes';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
+import { ENV_PROVIDERS } from "./environment";
+import { ROUTES } from "./app.routes";
+import { InMemoryWebApiModule } from "angular-in-memory-web-api";
 
 // App is our top level component
-import { App } from './app.component';
-import { APP_RESOLVER_PROVIDERS } from './app.resolver';
-import { AppState, InternalStateType } from './app.service';
+import { App } from "./app.component";
+import { APP_RESOLVER_PROVIDERS } from "./app.resolver";
+import { AppState, InternalStateType } from "./app.service";
 import { SERVICES, InMemoryDataService, AuthGuard } from "./services";
 import { VALIDATORS } from "./validators";
 import { NumberInputDirective, RegexInputDirective } from "./directives";
 import { DurationPipe, SafeStylePipe, SafeHtmlPipe } from "./pipes";
-import { LoginComponent } from './login';
-import { CoursesListComponent } from './courses';
-import { CourseComponent } from './course';
-import { BreadcrumbComponent } from './breadcrumb';
-import { ModalDialogComponent } from './modal';
-import { CourseEditComponent, DateInputComponent, DurationInputComponent, MultipleItemsSelectorComponent } from './course-edit';
-import { NoContent } from './no-content';
+import { LoginComponent } from "./login";
+import { CoursesListComponent } from "./courses";
+import { CourseComponent } from "./course";
+import { BreadcrumbComponent } from "./breadcrumb";
+import { ModalDialogComponent } from "./modal";
+import { CourseEditComponent, DateInputComponent, DurationInputComponent, MultipleItemsSelectorComponent } from "./course-edit";
+import { NoContent } from "./no-content";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -83,11 +83,11 @@ export class AppModule {
 
   hmrOnInit(store: StoreType) {
     if (!store || !store.state) return;
-    console.log('HMR store', JSON.stringify(store, null, 2));
+    console.log("HMR store", JSON.stringify(store, null, 2));
     // set state
     this.appState._state = store.state;
     // set input values
-    if ('restoreInputValues' in store) {
+    if ("restoreInputValues" in store) {
       let restoreInputValues = store.restoreInputValues;
       setTimeout(restoreInputValues);
     }
