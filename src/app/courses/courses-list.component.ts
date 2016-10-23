@@ -2,11 +2,8 @@ import { Component, animate, style, trigger, transition, state } from "@angular/
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
-import "rxjs/add/Operator/first";
-import "rxjs/add/Operator/catch";
-import "rxjs/add/Operator/debounceTime";
-import "rxjs/add/Operator/distinctUntilChanged";
-import "rxjs/add/Operator/switchMap";
+import "rxjs/add/operator/first";
+import "rxjs/add/operator/catch";
 
 import { User, Course } from "../models";
 import { LoginService, LocalStorageService, CourseService, BreadcrumbService } from "../services";

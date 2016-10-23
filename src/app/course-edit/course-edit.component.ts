@@ -3,8 +3,8 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { FormGroup } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
-import "rxjs/add/Operator/catch";
-import "rxjs/add/Observable/combineLatest";
+import "rxjs/add/operator/catch";
+import "rxjs/add/observable/combineLatest";
 
 import { User, Course, Author } from "../models";
 import { LoginService, LocalStorageService, CourseService, BreadcrumbService, AuthorService } from "../services";

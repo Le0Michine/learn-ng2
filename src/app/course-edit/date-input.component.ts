@@ -2,7 +2,7 @@ import { Component, Input, EventEmitter, OnInit, AfterViewInit, forwardRef, View
 import { Router, ActivatedRoute } from "@angular/router";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/Operator/catch";
+import "rxjs/add/operator/catch";
 
 import { AppState } from "../app.service";
 import { User, Course } from "../models";

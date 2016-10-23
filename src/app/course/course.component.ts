@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/Operator/catch";
+import "rxjs/add/operator/catch";
 
 import { Course } from "../models";
 

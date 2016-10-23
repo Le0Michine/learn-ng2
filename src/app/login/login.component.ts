@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/Operator/catch";
+import "rxjs/add/operator/catch";
 
 import { User } from "../models";
 import { LoginService, LocalStorageService, BreadcrumbService } from "../services";
