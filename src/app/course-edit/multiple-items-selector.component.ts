@@ -1,4 +1,4 @@
-import { Component, Input, EventEmitter, OnInit, forwardRef, ElementRef, ViewChild, Renderer } from "@angular/core";
+import { Component, Input, forwardRef } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
@@ -33,8 +33,6 @@ export class MultipleItemsSelectorComponent implements ControlValueAccessor {
     private _items: any[] = [];
     private onTouched: () => void = nullCallback;
     private onChanged: (_: any) => void = nullCallback;
-
-    constructor(private renderer: Renderer) { }
 
     get value(): any[] {
         return this._items;
