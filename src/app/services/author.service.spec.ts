@@ -5,7 +5,14 @@ import { Observable } from "rxjs/Rx";
 
 import { AuthorService } from "./author.service";
 import { Author } from "../models";
+import { ERROR_PROCESSOR, IErrorProcessor } from "./error-processor.service";
+import { ErrorHandlerService } from "./error-handler.service";
 import { InMemoryDataService } from "./in-memory-data.service";
+import { HttpHelperService } from "./http-helper.service";
+
+class Mock implements IErrorProcessor {
+    processError(error, action) {}
+}
 
 describe("Author service", () => {
     let authorService: AuthorService;
@@ -17,7 +24,10 @@ describe("Author service", () => {
                 InMemoryWebApiModule.forRoot(InMemoryDataService)
             ],
             providers: [
-                AuthorService
+                AuthorService,
+                HttpHelperService,
+                ErrorHandlerService,
+                { provide: ERROR_PROCESSOR, useClass: Mock }
             ]
         });
     });
@@ -50,6 +60,16 @@ describe("Author service", () => {
                 expect(author).toEqual(authorToGet);
                 done();
             });
+        });
+    });
+
+    it("should return null if id is incorrect", done => {
+        // arrange
+        // act
+        authorService.getById(1232342).subscribe(author => {
+            // assert
+            expect(author).toBeNull();
+            done();
         });
     });
 

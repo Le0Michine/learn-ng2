@@ -5,8 +5,12 @@ import { Observable } from "rxjs/Rx";
 
 import { CourseService } from "./course.service";
 import { Course } from "../models";
-import { SERVICES } from "./";
+import { SERVICES, ERROR_PROCESSOR, IErrorProcessor } from "./";
 import { InMemoryDataService } from "./in-memory-data.service";
+
+class Mock implements IErrorProcessor {
+    processError(error, action) {}
+}
 
 describe("Course service", () => {
     let courseService: CourseService;
@@ -18,7 +22,8 @@ describe("Course service", () => {
                 InMemoryWebApiModule.forRoot(InMemoryDataService)
             ],
             providers: [
-                ...SERVICES
+                ...SERVICES,
+                { provide: ERROR_PROCESSOR, useClass: Mock }
             ]
         });
     });
@@ -51,6 +56,16 @@ describe("Course service", () => {
                 expect(course).toEqual(courses[0]);
                 done();
             });
+        });
+    });
+
+    it("should return null if id is incorrect", done => {
+        // arrange
+        // act
+        courseService.getById(123241342).subscribe(course => {
+            // assert
+            expect(course).toBeNull();
+            done();
         });
     });
 
@@ -112,16 +127,17 @@ describe("Course service", () => {
             // act
             courseService.removeCourse(0).subscribe(
                 result => {
-                    fail("shouldn't get here");
-                },
-                error => {
                     courseService.getCourses().map(courses => courses.length).subscribe(count => {
                         // assert
                         expect(count).toBe(oldCount);
-                        expect(error.type).toBe("bad-response");
+                        expect(result).toBe(false);
                         done();
+                    },
+                    error => {
+                        fail("shouldn't get here");
                     });
-            });
+                }
+            );
         });
     });
 

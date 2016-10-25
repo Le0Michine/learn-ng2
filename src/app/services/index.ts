@@ -5,8 +5,8 @@ export * from "./course.service"
 export * from "./author.service"
 export * from "./breadcrumb.service"
 export * from "./error-handler.service"
-export * from "./auth.guard"
 export * from "./http-helper.service"
+export * from "./error-processor.service"
 
 import { LoginService } from "./login.service";
 import { LocalStorageService } from "./local-storage.service";
@@ -23,5 +23,5 @@ export const SERVICES = [
     AuthorService,
     BreadcrumbService,
     ErrorHandlerService,
-    HttpHelperService,
+    HttpHelperService
 ];

@@ -1,0 +1,15 @@
+.toaster {
+    display: block;
+    min-height: 60px;
+    width: 250px;
+    color: white;
+    font-weight: bold;
+    position: fixed;
+    right: 15px;
+    top: 15px;
+    word-wrap: normal;
+    box-shadow: 0 0 5px black;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 9999999;
+    padding: 15px;
+}

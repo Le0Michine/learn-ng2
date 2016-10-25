@@ -1,17 +1,16 @@
-import { Injectable } from "@angular/core";
-
+import { Injectable, Inject } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/catch";
 
+import { ERROR_PROCESSOR, IErrorProcessor } from "./error-processor.service";
+
 @Injectable()
 export class ErrorHandlerService {
-    handleError(error: any, action: string) {
-        console.error("error ocured when", action, error);
-    }
+    constructor(@Inject(ERROR_PROCESSOR) private errorProcessor: IErrorProcessor) { }
 
     catch<T>(observable: Observable<T>, defaultValue: T, action: string): Observable<T> {
         return observable.catch(error => {
-            this.handleError(error, action);
+            this.errorProcessor.processError(error, action);
             return Observable.of<T>(defaultValue);
         });
     }

@@ -88,6 +88,6 @@ export class DateInputComponent implements ControlValueAccessor {
         let dd = +str.split(".")[1] || null;
         let yyyy = +str.split(".")[2] || null;
         // return yyyy && yyyy > 999 && dd && MM ? new Date(`${yyyy}-${MM}-${dd}`) : new Date("Invalid date");
-        return new Date(Date.parse(str));
+        return /\d\d.\d\d.\d\d\d\d/.test(str) ? new Date(Date.parse(str)) : new Date("Invalid Date");
     }
 }

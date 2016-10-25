@@ -11,4 +11,6 @@ if (window.__env__["FULL_COVERAGE"]) {
     require("./pipes");
     require("./services");
     require("./validators");
+    require("./toaster");
+    require("./guards");
 }

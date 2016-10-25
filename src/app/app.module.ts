@@ -16,7 +16,9 @@ import { InMemoryWebApiModule } from "angular-in-memory-web-api";
 import { App } from "./app.component";
 import { APP_RESOLVER_PROVIDERS } from "./app.resolver";
 import { AppState, InternalStateType } from "./app.service";
-import { SERVICES, InMemoryDataService, AuthGuard } from "./services";
+import { SERVICES, InMemoryDataService, ERROR_DISPATCHER, ERROR_PROCESSOR, ErrorProcessor } from "./services";
+import { AuthGuard, EditCourseResolver } from "./guards";
+import { handleError, HANDLE_ERROR } from "./services/error-handler.function";
 import { VALIDATORS } from "./validators";
 import { NumberInputDirective, RegexInputDirective } from "./directives";
 import { DurationPipe, SafeStylePipe, SafeHtmlPipe } from "./pipes";
@@ -25,6 +27,7 @@ import { CoursesListComponent } from "./courses";
 import { CourseComponent } from "./course";
 import { BreadcrumbComponent } from "./breadcrumb";
 import { ModalDialogComponent } from "./modal";
+import { ToasterComponent } from "./toaster";
 import { CourseEditComponent, DateInputComponent, DurationInputComponent, MultipleItemsSelectorComponent } from "./course-edit";
 import { NoContent } from "./no-content";
 
@@ -57,6 +60,7 @@ type StoreType = {
     MultipleItemsSelectorComponent,
     BreadcrumbComponent,
     ModalDialogComponent,
+    ToasterComponent,
     ...VALIDATORS,
     DurationPipe,
     SafeStylePipe,
@@ -72,10 +76,14 @@ type StoreType = {
     InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 1000 })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
+    ErrorProcessor,
+    { provide: ERROR_DISPATCHER, useExisting: ErrorProcessor },
+    { provide: ERROR_PROCESSOR, useExisting: ErrorProcessor },
+    AuthGuard,
+    EditCourseResolver,
     ENV_PROVIDERS,
     APP_PROVIDERS,
-    ...SERVICES,
-    { provide: AuthGuard, useClass: AuthGuard }
+    ...SERVICES
   ]
 })
 export class AppModule {

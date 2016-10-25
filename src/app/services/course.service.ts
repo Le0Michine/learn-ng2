@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers } from "@angular/http";
-import { HttpHelperService } from "./http-helper.service";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/concatMap";
 import "rxjs/add/observable/of";
 
 import { Course } from "../models";
+import { HttpHelperService } from "./http-helper.service";
 import { ErrorHandlerService } from "./error-handler.service";
 
 @Injectable()
@@ -16,33 +16,30 @@ export class CourseService {
     constructor(private http: Http, private errorHandler: ErrorHandlerService, private httpHelper: HttpHelperService) { }
 
     getCourses(): Observable<Course[]> {
-        return this.httpHelper.get(this.coursesUrl).map(items => items.map(x => this.toCourseModel(x)));
+        return this.httpHelper
+            .get(this.coursesUrl, [], "get cources", (list: any[]) => list.map(x => this.toCourseModel(x)));
     }
 
-    getById(id: number) {
+    getById(id: number): Observable<Course> {
         let url = `${this.coursesUrl}/${id}`;
-        return this.errorHandler.catch(this.httpHelper.get(url)
-            .map(x => this.toCourseModel(x)), null, `get by id ${id}`);
+        return this.httpHelper.get(url, null, `get course with id ${id}`, x => this.toCourseModel(x)) ;
     }
 
-    removeCourse(id: number) {
+    removeCourse(id: number): Observable<boolean> {
         let url = `${this.coursesUrl}/${id}`;
-        return this.http.delete(url, { headers: this.headers }).catch(error => Observable.of(error)).concatMap(response => {
-            if (response.ok) {
-                return Observable.of(true);
-            } else {
-                return Observable.throw({
-                    type: "bad-response",
-                    message: `unable to remove course ${id}, response status: ${response.status} ${response.statusText}`
-                });
-            }
-        });
+        return this.httpHelper.delete(url, { headers: this.headers }, `remove course with id ${id}`);
     }
 
-    updateCourse(course: Course) {
+    updateCourse(course: Course): Observable<Course> {
         let url = `${this.coursesUrl}/${course.id}`;
-        return this.http.put(url, JSON.stringify(course), {headers: this.headers})
-            .map(response => course);
+        return this.httpHelper.put(
+            url,
+            course,
+            { headers: this.headers },
+            null,
+            `unable to update course ${course.name}`,
+            (x: any) => this.toCourseModel(x)
+        );
     }
 
     addCourse(course: Course): Observable<Course> {
