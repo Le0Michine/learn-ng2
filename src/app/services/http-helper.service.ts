@@ -35,7 +35,7 @@ export class HttpHelperService {
         errorMessage: string = "failed to perform PUT request",
         mapToModel: (x: any) => T = x => x): Observable<T> {
             return this.errorHandler.catch(
-                this.http.put(url, JSON.stringify(body), options).map(r => this.mapToJson(r)).map(data => mapToModel(data)),
+                this.http.put(url, JSON.stringify(body), options).map(r => r.ok ? body : null),
                 defaultValue,
                 errorMessage);
     }

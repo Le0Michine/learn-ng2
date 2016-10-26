@@ -2,6 +2,7 @@ import { inject, TestBed } from "@angular/core/testing";
 import { HttpModule } from "@angular/http";
 import { InMemoryWebApiModule } from "angular-in-memory-web-api";
 import { Observable } from "rxjs/Rx";
+import { StoreModule, Store, combineReducers, Action, provideStore } from "@ngrx/Store";
 
 import { AuthorService } from "./author.service";
 import { Author } from "../models";
@@ -9,6 +10,7 @@ import { ERROR_PROCESSOR, IErrorProcessor } from "./error-processor.service";
 import { ErrorHandlerService } from "./error-handler.service";
 import { InMemoryDataService } from "./in-memory-data.service";
 import { HttpHelperService } from "./http-helper.service";
+import { coursesReducer, courseReducer, authorsReducer } from "../reducers";
 
 class Mock implements IErrorProcessor {
     processError(error, action) {}
@@ -16,12 +18,14 @@ class Mock implements IErrorProcessor {
 
 describe("Author service", () => {
     let authorService: AuthorService;
+    let appStore: Store<any>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
                 HttpModule,
-                InMemoryWebApiModule.forRoot(InMemoryDataService)
+                InMemoryWebApiModule.forRoot(InMemoryDataService),
+                StoreModule.provideStore({ courses: coursesReducer, authors: authorsReducer, course: courseReducer })
             ],
             providers: [
                 AuthorService,
@@ -32,8 +36,9 @@ describe("Author service", () => {
         });
     });
 
-    beforeEach(inject([ AuthorService ], (service: AuthorService) => {
+    beforeEach(inject([ AuthorService, Store ], (service: AuthorService, store: Store<any>) => {
         authorService = service;
+        appStore = store;
     }));
 
     it("should be possible to get all authors", done => {
@@ -41,7 +46,8 @@ describe("Author service", () => {
         let authorsCout = 12;
 
         // act
-        authorService.getAuthors()
+        authorService.getAuthors();
+        appStore.select<Author[]>("authors").first()
             .subscribe(result => {
                 // assert
                 expect(result.length).toBe(authorsCout);
@@ -52,7 +58,8 @@ describe("Author service", () => {
 
     it("should be possible to get author by id", done => {
         // arrange
-        authorService.getAuthors().subscribe(result => {
+        authorService.getAuthors();
+        appStore.select<Author[]>("authors").first().subscribe(result => {
             let authorToGet = result[0];
             // act
             authorService.getById(authorToGet.id).subscribe(author => {

@@ -4,6 +4,7 @@ import { FormsModule, NG_VALIDATORS } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
 import { removeNgStyles, createNewHosts, createInputTransfer } from "@angularclass/hmr";
+import { provideStore, StoreModule } from "@ngrx/Store";
 
 /*
  * Platform and Environment providers/directives/pipes
@@ -30,6 +31,7 @@ import { ModalDialogComponent } from "./modal";
 import { ToasterComponent } from "./toaster";
 import { CourseEditComponent, DateInputComponent, DurationInputComponent, MultipleItemsSelectorComponent } from "./course-edit";
 import { NoContent } from "./no-content";
+import { coursesReducer, courseReducer, authorsReducer } from "./reducers";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -73,7 +75,8 @@ type StoreType = {
     FormsModule,
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
-    InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 1000 })
+    InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 1000 }),
+    StoreModule.provideStore({ courses: coursesReducer, authors: authorsReducer, course: courseReducer })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ErrorProcessor,

@@ -1,12 +1,14 @@
-import { inject, TestBed } from "@angular/core/testing";
+import { inject, TestBed, async } from "@angular/core/testing";
 import { HttpModule } from "@angular/http";
 import { InMemoryWebApiModule } from "angular-in-memory-web-api";
 import { Observable } from "rxjs/Rx";
+import { StoreModule, Store, combineReducers, Action, provideStore } from "@ngrx/Store";
 
 import { CourseService } from "./course.service";
 import { Course } from "../models";
 import { SERVICES, ERROR_PROCESSOR, IErrorProcessor } from "./";
 import { InMemoryDataService } from "./in-memory-data.service";
+import { coursesReducer, courseReducer, authorsReducer } from "../reducers";
 
 class Mock implements IErrorProcessor {
     processError(error, action) {}
@@ -14,12 +16,14 @@ class Mock implements IErrorProcessor {
 
 describe("Course service", () => {
     let courseService: CourseService;
+    let appStore: Store<any>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
                 HttpModule,
-                InMemoryWebApiModule.forRoot(InMemoryDataService)
+                InMemoryWebApiModule.forRoot(InMemoryDataService),
+                StoreModule.provideStore({ courses: coursesReducer, authors: authorsReducer, course: courseReducer })
             ],
             providers: [
                 ...SERVICES,
@@ -28,8 +32,9 @@ describe("Course service", () => {
         });
     });
 
-    beforeEach(inject([ CourseService ], (service: CourseService) => {
+    beforeEach(inject([ CourseService, Store ], (service: CourseService, store: Store<any>) => {
         courseService = service;
+        appStore = store;
     }));
 
     it("should be possible to get all courses", done => {
@@ -37,7 +42,8 @@ describe("Course service", () => {
         let coursesCout = 7;
 
         // act
-        courseService.getCourses()
+        courseService.getCourses();
+        appStore.select<Course[]>("courses").first()
             .subscribe(result => {
                 // assert
                 expect(result.length).toBe(coursesCout);
@@ -48,9 +54,11 @@ describe("Course service", () => {
 
     it("should be possible to get course by id", done => {
         // arrange
-        courseService.getCourses().subscribe(courses => {
+        courseService.getCourses();
+            appStore.select<Course[]>("courses").first().subscribe(courses => {
             // act
-            courseService.getById(courses[0].id).subscribe(course => {
+            courseService.getById(courses[0].id);
+            appStore.select<Course>("course").first().subscribe(course => {
                 // assert
                 validateCourse(course);
                 expect(course).toEqual(courses[0]);
@@ -62,7 +70,8 @@ describe("Course service", () => {
     it("should return null if id is incorrect", done => {
         // arrange
         // act
-        courseService.getById(123241342).subscribe(course => {
+        courseService.getById(123241342);
+        appStore.select<Course>("course").first().subscribe(course => {
             // assert
             expect(course).toBeNull();
             done();
@@ -79,7 +88,9 @@ describe("Course service", () => {
         course.summary = "course description";
 
         // act
-        courseService.addCourse(course).subscribe(createdCourse => {
+        courseService.addCourse(course);
+        appStore.select<Course[]>("courses").first().subscribe(courses => {
+            let createdCourse = courses[courses.length - 1];
             course.id = createdCourse.id;
             // assert
             validateCourse(createdCourse);
@@ -90,61 +101,57 @@ describe("Course service", () => {
 
     it("should be possible to update course", done => {
         // arrange
-        courseService.getById(11).subscribe(course => {
+        courseService.getById(11);
+        appStore.select<Course>("course").first().subscribe(course => {
             course.duration = 12342;
             course.name = "updated name";
             course.summary = "updated description";
             // act
-            courseService.updateCourse(course).subscribe(() => {
-                courseService.getById(11).subscribe(updatedCourse => {
-                    // assert
-                    validateCourse(updatedCourse);
-                    expect(updatedCourse).toEqual(course);
-                    done();
-                });
+            courseService.updateCourse(course);
+            appStore.select<Course>("course").first().subscribe(updatedCourse => {
+                // assert
+                validateCourse(updatedCourse);
+                expect(updatedCourse).toEqual(course);
+                done();
             });
         });
     });
 
-    it("should be possible to remove course", done => {
+    it("should be possible to remove course", async(() => {
         // arrange
-        courseService.getCourses().map(courses => courses.length).subscribe(oldCount => {
-            // act
-            courseService.removeCourse(11).subscribe(result => {
-                courseService.getCourses().map(courses => courses.length).subscribe(count => {
-                    // assert
-                    expect(count).toBe(oldCount - 1);
-                    expect(result).toBe(true);
-                    done();
-                });
-            });
+        courseService.getCourses();
+
+        // act
+        courseService.removeCourse(11);
+
+        // assert
+        appStore.select<Course[]>("courses").first().map(list => list.length).subscribe(count => {
+            expect(count).toBe(6);
         });
-    });
+    }));
 
     it("shouldn't be possible to remove course by wrong id", done => {
         // arrange
-        courseService.getCourses().map(courses => courses.length).subscribe(oldCount => {
+        courseService.getCourses();
+        appStore.select<Course[]>("courses").first().map(courses => courses.length).subscribe(oldCount => {
             // act
-            courseService.removeCourse(0).subscribe(
-                result => {
-                    courseService.getCourses().map(courses => courses.length).subscribe(count => {
-                        // assert
-                        expect(count).toBe(oldCount);
-                        expect(result).toBe(false);
-                        done();
-                    },
-                    error => {
-                        fail("shouldn't get here");
-                    });
-                }
-            );
+            courseService.removeCourse(0);
+            appStore.select<Course[]>("courses").first().map(courses => courses.length).subscribe(count => {
+                // assert
+                expect(count).toBe(oldCount);
+                done();
+            },
+            error => {
+                fail("shouldn't get here");
+            });
         });
     });
 
     it("should be possible to search course by name", done => {
         // arrange
         // act
-        courseService.searchByName(".net").map(courses => courses[0]).subscribe(foundCourse => {
+        courseService.searchByName(".net");
+        appStore.select<Course[]>("courses").map(courses => courses[0]).subscribe(foundCourse => {
             // assert
             validateCourse(foundCourse);
             expect(foundCourse.name).toContain(".net");

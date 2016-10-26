@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation, Inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
 import { Subject } from "rxjs/Subject";
+import { Store, combineReducers, Action } from "@ngrx/Store";
 
 import { AppState } from "./app.service";
 import { BreadcrumbService, LoginService, ERROR_DISPATCHER, IErrorDispatcher } from "./services";
@@ -26,6 +27,7 @@ export class App {
   onError: Observable<string>;
 
   constructor(
+    private store: Store<any>,
     public appState: AppState,
     public loginService: LoginService,
     private location: BreadcrumbService,

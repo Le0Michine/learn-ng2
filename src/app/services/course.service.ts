@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, Headers } from "@angular/http";
+import { Store, combineReducers, Action } from "@ngrx/Store";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/concatMap";
 import "rxjs/add/observable/of";
@@ -13,44 +14,70 @@ export class CourseService {
     private headers = new Headers({"Content-Type": "application/json"});
     private coursesUrl = "/app/courses";
 
-    constructor(private http: Http, private errorHandler: ErrorHandlerService, private httpHelper: HttpHelperService) { }
+    constructor(
+        private errorHandler: ErrorHandlerService,
+        private http: HttpHelperService,
+        private store: Store<any>) { }
 
-    getCourses(): Observable<Course[]> {
-        return this.httpHelper
-            .get(this.coursesUrl, [], "get cources", (list: any[]) => list.map(x => this.toCourseModel(x)));
+    getCourses(): void {
+        this.http
+            .get(this.coursesUrl, [], "get cources", (list: any[]) => list.map(x => this.toCourseModel(x)))
+            .subscribe(courses => this.store.dispatch({ type: "COURSES_LOADED", payload: courses }));
     }
 
-    getById(id: number): Observable<Course> {
+    getById(id: number): void {
         let url = `${this.coursesUrl}/${id}`;
-        return this.httpHelper.get(url, null, `get course with id ${id}`, x => this.toCourseModel(x)) ;
+        this.http.get(url, null, `get course with id ${id}`, x => this.toCourseModel(x))
+            .subscribe(course => this.store.dispatch({ type: "COURSE_LOADED", payload: course }));
     }
 
-    removeCourse(id: number): Observable<boolean> {
+    removeCourse(id: number): void {
         let url = `${this.coursesUrl}/${id}`;
-        return this.httpHelper.delete(url, { headers: this.headers }, `remove course with id ${id}`);
+        this.http.delete(url, { headers: this.headers }, `remove course with id ${id}`)
+            .subscribe(r => {
+                if (r) {
+                    this.store.dispatch({ type: "DELETE_COURSE", payload: { id: id } });
+                }
+            });
     }
 
-    updateCourse(course: Course): Observable<Course> {
+    updateCourse(course: Course): void {
         let url = `${this.coursesUrl}/${course.id}`;
-        return this.httpHelper.put(
+        this.http.put(
             url,
             course,
             { headers: this.headers },
             null,
-            `unable to update course ${course.name}`,
+            `update course ${course.name}`,
             (x: any) => this.toCourseModel(x)
-        );
+        )
+        .subscribe(c => {
+            if (c) {
+                this.store.dispatch({ type: "UPDATE_COURSE", payload: c });
+            }
+        });
     }
 
-    addCourse(course: Course): Observable<Course> {
-        return this.errorHandler
-            .catch(this.http.post(this.coursesUrl, JSON.stringify(course), {headers: this.headers})
-                .map(r => this.toCourseModel(r.json().data)), null, `add course ${JSON.stringify(course)}`);
+    addCourse(course: Course): void {
+        this.http.post(
+            this.coursesUrl,
+            course,
+            { headers: this.headers },
+            null,
+            `add course ${JSON.stringify(course)}`,
+            r => this.toCourseModel(r)
+        )
+        .subscribe(c => this.store.dispatch({ type: "ADD_COURSE", payload: c }));
     }
 
-    searchByName(term: string): Observable<Course[]> {
-        return this.errorHandler.catch(this.http.get(`${this.coursesUrl}?name=${term}`)
-            .map(r => r.json().data.map(x => this.toCourseModel(x))), [], `search course by name ${term}`);
+    searchByName(term: string): void {
+        this.http.get(
+            `${this.coursesUrl}?name=${term}`,
+            [],
+            `search course by name ${term}`,
+            (list: any) => list.map(x => this.toCourseModel(x))
+        )
+        .subscribe(courses => this.store.dispatch({ type: "COURSES_LOADED", payload: courses }));
     }
 
     private toCourseModel(json) {

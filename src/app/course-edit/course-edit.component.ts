@@ -2,10 +2,12 @@ import { Component, Input, EventEmitter, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 import { FormGroup } from "@angular/forms";
 import { Observable } from "rxjs/Observable";
+import { Store } from "@ngrx/Store";
 import { Subject } from "rxjs/Subject";
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/combineLatest";
 
+import { AppStore } from "../app.store";
 import { User, Course, Author } from "../models";
 import { LoginService, LocalStorageService, CourseService, BreadcrumbService, AuthorService } from "../services";
 
@@ -26,6 +28,7 @@ export class CourseEditComponent implements OnInit {
     errors: any[] = [];
 
     constructor(
+        private store: Store<AppStore>,
         private loginService: LoginService,
         private storage: LocalStorageService,
         private courseService: CourseService,
@@ -37,14 +40,18 @@ export class CourseEditComponent implements OnInit {
 
     ngOnInit() {
         this.route.params.subscribe((params: any) => {
+            let courseObservable = Observable.of(this.course);
+            if (params.id !== "new") {
+                this.courseService.getById(+params.id);
+                courseObservable = this.store.select<Course>("course");
+            }
+            this.authorService.getAuthors();
             Observable.combineLatest(
-                params.id !== "new"
-                    ? this.courseService.getById(+params.id)
-                    : Observable.of(this.course),
-                this.authorService.getAuthors())
-            .subscribe(result => {
-                this.course = result[0];
-                let authors = result[1];
+                courseObservable,
+                this.store.select<Author[]>("authors"))
+            .first()
+            .subscribe(([course, authors]: [Course, Author[]]) => {
+                this.course = course || this.course;
                 this.authors = authors.filter(x => this.course.authors.indexOf(x.id) === -1);
                 this.selectedAuthors = authors.filter(x => this.course.authors.indexOf(x.id) > -1);
             });
@@ -67,7 +74,7 @@ export class CourseEditComponent implements OnInit {
         this.course.summary = formValue.summary;
 
         let o = this.course.id ? this.courseService.updateCourse(this.course) : this.courseService.addCourse(this.course);
-        o.subscribe(() => this.goToCoursesList());
+        this.store.select<Course>("course").first().subscribe((x) => this.goToCoursesList());
     }
 
     cancel(form: FormGroup) {

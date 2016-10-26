@@ -1,10 +1,13 @@
-import { Component, animate, style, trigger, transition, state } from "@angular/core";
+import { Component, animate, style, trigger, transition, state, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs/Observable";
+import { Subscription } from "rxjs/Subscription";
 import { Subject } from "rxjs/Subject";
+import { Store, combineReducers, Action } from "@ngrx/Store";
 import "rxjs/add/operator/first";
 import "rxjs/add/operator/catch";
 
+import { AppStore } from "../app.store";
 import { User, Course } from "../models";
 import { LoginService, LocalStorageService, CourseService, BreadcrumbService } from "../services";
 
@@ -15,16 +18,18 @@ import { LoginService, LocalStorageService, CourseService, BreadcrumbService } f
     ],
     templateUrl: "courses-list.component.html",
 })
-export class CoursesListComponent {
+export class CoursesListComponent implements OnInit {
     user: User = new User();
     errorMessage: string = "";
-    courses: Course[] = [];
+    courses: Observable<Course[]>;
+    subscriptions: Subscription[] = [];
 
-    removeDetails: string[] = [];
+    removeDetails: Observable<string[]>;
     removeDialogClose: Subject<boolean> = new Subject<boolean>();
     removeDialogShow: boolean = false;
 
     constructor(
+        private store: Store<AppStore>,
         private loginService: LoginService,
         private storage: LocalStorageService,
         private courseService: CourseService,
@@ -34,17 +39,16 @@ export class CoursesListComponent {
 
     ngOnInit() {
         this.location.setCurrentState([{title: "Courses", navigationLink: "courses"}]);
-        this.courseService.getCourses().subscribe(courses => this.courses = courses);
+        this.courseService.getCourses();
+        this.courses = this.store.select<Course[]>("courses");
+    }
+
+    ngOnDestroy() {
+        this.subscriptions.forEach(x => x.unsubscribe());
     }
 
     search(term: string) {
-        this.courseService.searchByName(term).subscribe(courses => this.courses = courses);
-    }
-
-    subscribeOnCourses(observable: Observable<Course[]>) {
-        observable.subscribe(courses => {
-            this.courses = courses;
-        });
+        this.courseService.searchByName(term);
     }
 
     add() {
@@ -52,7 +56,7 @@ export class CoursesListComponent {
     }
 
     remove(id: number) {
-        this.removeDetails = [this.courses.find(x => x.id === id).name];
+        this.removeDetails = this.courses.map(x => x.filter(c => c.id === id).map(c => c.name));
         this.removeDialogShow = true;
         this.removeDialogClose.first().subscribe(remove => {
             if (remove) {
@@ -63,12 +67,7 @@ export class CoursesListComponent {
     }
 
     onRemoveAccept(id: number) {
-        this.courseService.removeCourse(id).subscribe(r => {
-            if (r) {
-                let i = this.courses.findIndex(x => x.id === id);
-                this.courses.splice(i, 1);
-            }
-        });
+        this.courseService.removeCourse(id);
     }
 
     edit(id: number) {
