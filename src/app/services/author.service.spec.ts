@@ -6,7 +6,7 @@ import { StoreModule, Store, combineReducers, Action, provideStore } from "@ngrx
 
 import { AuthorService } from "./author.service";
 import { Author } from "../models";
-import { ERROR_PROCESSOR, IErrorProcessor } from "./error-processor.service";
+import { ErrorProcessor, IErrorProcessor } from "./error-processor.service";
 import { ErrorHandlerService } from "./error-handler.service";
 import { InMemoryDataService } from "./in-memory-data.service";
 import { HttpHelperService } from "./http-helper.service";
@@ -31,7 +31,7 @@ describe("Author service", () => {
                 AuthorService,
                 HttpHelperService,
                 ErrorHandlerService,
-                { provide: ERROR_PROCESSOR, useClass: Mock }
+                { provide: ErrorProcessor, useClass: Mock }
             ]
         });
     });

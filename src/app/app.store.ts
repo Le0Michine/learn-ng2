@@ -4,4 +4,5 @@ export class AppStore {
     courses: Course[];
     authors: Author[];
     course: Course;
+    error: string;
 }

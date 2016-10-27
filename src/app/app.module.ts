@@ -17,9 +17,8 @@ import { InMemoryWebApiModule } from "angular-in-memory-web-api";
 import { App } from "./app.component";
 import { APP_RESOLVER_PROVIDERS } from "./app.resolver";
 import { AppState, InternalStateType } from "./app.service";
-import { SERVICES, InMemoryDataService, ERROR_DISPATCHER, ERROR_PROCESSOR, ErrorProcessor } from "./services";
+import { SERVICES, InMemoryDataService, ErrorProcessor } from "./services";
 import { AuthGuard, EditCourseResolver } from "./guards";
-import { handleError, HANDLE_ERROR } from "./services/error-handler.function";
 import { VALIDATORS } from "./validators";
 import { NumberInputDirective, RegexInputDirective } from "./directives";
 import { DurationPipe, SafeStylePipe, SafeHtmlPipe } from "./pipes";
@@ -31,7 +30,7 @@ import { ModalDialogComponent } from "./modal";
 import { ToasterComponent } from "./toaster";
 import { CourseEditComponent, DateInputComponent, DurationInputComponent, MultipleItemsSelectorComponent } from "./course-edit";
 import { NoContent } from "./no-content";
-import { coursesReducer, courseReducer, authorsReducer } from "./reducers";
+import { coursesReducer, courseReducer, authorsReducer, errorReducer } from "./reducers";
 
 // Application wide providers
 const APP_PROVIDERS = [
@@ -76,12 +75,10 @@ type StoreType = {
     HttpModule,
     RouterModule.forRoot(ROUTES, { useHash: true }),
     InMemoryWebApiModule.forRoot(InMemoryDataService, { delay: 1000 }),
-    StoreModule.provideStore({ courses: coursesReducer, authors: authorsReducer, course: courseReducer })
+    StoreModule.provideStore({ courses: coursesReducer, authors: authorsReducer, course: courseReducer, error: errorReducer })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection
     ErrorProcessor,
-    { provide: ERROR_DISPATCHER, useExisting: ErrorProcessor },
-    { provide: ERROR_PROCESSOR, useExisting: ErrorProcessor },
     AuthGuard,
     EditCourseResolver,
     ENV_PROVIDERS,

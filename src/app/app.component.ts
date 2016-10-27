@@ -5,7 +5,7 @@ import { Subject } from "rxjs/Subject";
 import { Store, combineReducers, Action } from "@ngrx/Store";
 
 import { AppState } from "./app.service";
-import { BreadcrumbService, LoginService, ERROR_DISPATCHER, IErrorDispatcher } from "./services";
+import { BreadcrumbService, LoginService } from "./services";
 import { User } from "./models";
 
 /*
@@ -31,14 +31,12 @@ export class App {
     public appState: AppState,
     public loginService: LoginService,
     private location: BreadcrumbService,
-    private router: Router,
-    @Inject(ERROR_DISPATCHER) errorDispatcher: IErrorDispatcher) {
-      this.onError = errorDispatcher.getError();
-  }
+    private router: Router) { }
 
   ngOnInit() {
     this.place = this.location.getCurrentState().map(x => x.join("/"));
     this.currentUser = this.loginService.onSuccessLogin().map(user => user ? user.name : "");
+    this.onError = this.store.select<string>("error");
   }
 
   logoff() {

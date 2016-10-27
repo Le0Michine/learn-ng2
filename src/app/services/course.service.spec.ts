@@ -6,7 +6,7 @@ import { StoreModule, Store, combineReducers, Action, provideStore } from "@ngrx
 
 import { CourseService } from "./course.service";
 import { Course } from "../models";
-import { SERVICES, ERROR_PROCESSOR, IErrorProcessor } from "./";
+import { SERVICES, ErrorProcessor, IErrorProcessor } from "./";
 import { InMemoryDataService } from "./in-memory-data.service";
 import { coursesReducer, courseReducer, authorsReducer } from "../reducers";
 
@@ -27,7 +27,7 @@ describe("Course service", () => {
             ],
             providers: [
                 ...SERVICES,
-                { provide: ERROR_PROCESSOR, useClass: Mock }
+                { provide: ErrorProcessor, useClass: Mock }
             ]
         });
     });
